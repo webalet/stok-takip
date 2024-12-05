@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="tr" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favori Lazer - Stok Takibi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a1a2e;
+            --secondary-color: #16213e;
+            --accent-color: #1b2a4a;
+            --hover-color: #0f3460;
+            --bs-body-bg: #0a0a0a;
+            --bs-body-color: #e0e0e0;
+        }
+        
+        body {
+            background-color: var(--bs-body-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            object-fit: cover;
+        }
+
+        .navbar-brand span {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .navbar-nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .navbar-brand {
+                gap: 0.8rem;
+            }
+
+            .navbar-brand img {
+                height: 35px;
+                width: 35px;
+            }
+
+            .navbar-brand span {
+                font-size: 1.3rem;
+            }
+
+            .navbar-nav-buttons {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+
+            .navbar-nav-buttons .btn {
+                padding: 0.8rem;
+                font-size: 1rem;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                white-space: nowrap;
+            }
+
+            .navbar-nav-buttons .btn i {
+                font-size: 1.1rem;
+                margin-right: 0.4rem;
+            }
+
+            /* Mobil istatistik kartları */
+            .stats-card {
+                padding: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .stats-card i {
+                font-size: 2.8rem;
+                margin-bottom: 1.2rem;
+            }
+
+            .stats-card h3 {
+                font-size: 2.2rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .stats-card p {
+                font-size: 1.1rem;
+            }
+
+            /* Mobil form elemanları */
+            .form-control {
+                padding: 1rem 1.2rem;
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+            }
+
+            .btn-primary {
+                padding: 1rem 1.5rem;
+                font-size: 1.1rem;
+            }
+
+            /* Mobil kart butonları */
+            .mobile-action-buttons .btn {
+                padding: 0.8rem 1.2rem;
+                font-size: 1.2rem;
+                height: auto;
+                min-width: 50px;
+            }
+
+            .mobile-action-buttons .btn i {
+                font-size: 1.2rem;
+            }
+
+            /* Mobil sıralama butonları */
+            .mobile-sort-buttons {
+                margin-bottom: 1.5rem;
+                padding: 0.8rem;
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+                border-radius: 12px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            }
+
+            .mobile-sort-buttons .btn-group {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .mobile-sort-buttons .btn {
+                background: rgba(255, 255, 255, 0.1);
+                border: none;
+                color: white;
+                padding: 0.8rem;
+                font-size: 0.9rem;
+                border-radius: 8px !important;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .mobile-sort-buttons .btn i {
+                font-size: 1rem;
+                opacity: 0.8;
+                transition: transform 0.3s ease;
+            }
+
+            .mobile-sort-buttons .btn:hover {
+                background: rgba(255, 255, 255, 0.2);
+                transform: translateY(-2px);
+            }
+
+            .mobile-sort-buttons .btn.active {
+                background: rgba(255, 255, 255, 0.25);
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            }
+
+            .mobile-sort-buttons .btn.active i {
+                transform: rotate(180deg);
+                opacity: 1;
+            }
+
+            /* Mobil sıralama butonları */
+            .mobile-sort-buttons .btn {
+                padding: 1rem 1.2rem;
+                font-size: 1.1rem;
+            }
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            background-color: var(--bs-body-bg);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+            color: white !important;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 1.2rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--hover-color), var(--accent-color));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .stats-card i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            background: rgba(255, 255, 255, 0.1);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem auto;
+        }
+
+        .stats-card h3 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin: 0.5rem 0;
+            color: white;
+        }
+
+        .stats-card p {
+            font-size: 1.1rem;
+            margin: 0;
+            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Mobil görünüm için özel stiller */
+        @media (max-width: 768px) {
+            .stats-card {
+                padding: 1.2rem;
+            }
+
+            .stats-card i {
+                font-size: 2rem;
+                width: 50px;
+                height: 50px;
+            }
+
+            .stats-card h3 {
+                font-size: 1.8rem;
+            }
+
+            .stats-card p {
+                font-size: 1rem;
+            }
+        }
+
+        .table {
+            --bs-table-bg: transparent;
+        }
+
+        .table thead th {
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.3s ease;
+            position: relative;
+            padding-right: 25px;
+        }
+
+        .table thead th:hover {
+            background-color: var(--hover-color);
+        }
+
+        .table thead th i.fas {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.7;
+        }
+
+        .table thead th.asc i.fas,
+        .table thead th.desc i.fas {
+            opacity: 1;
+        }
+
+        .table thead th.asc i.fas {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(var(--bs-primary-rgb), 0.05);
+        }
+
+        .btn-outline-light {
+            border-width: 2px;
+            font-weight: 500;
+        }
+
+        .btn-outline-light:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+
+        .theme-switch {
+            border-width: 2px !important;
+            padding: 0.5rem 1rem;
+        }
+
+        .theme-switch:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        [data-bs-theme="dark"] .card {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        [data-bs-theme="dark"] .table thead th {
+            background-color: var(--accent-color);
+        }
+
+        [data-bs-theme="dark"] .table-hover tbody tr:hover {
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        /* Kritik stok rengi - Sadece masaüstü görünümü için */
+        .d-none.d-md-block tr.kritik-stok {
+            background-color: #fff5f5 !important;
+            color: #e53e3e !important;
+            transition: background-color 0.3s ease;
+        }
+
+        .d-none.d-md-block tr.kritik-stok:hover {
+            background-color: #fed7d7 !important;
+            color: #c53030 !important;
+        }
+
+        /* Highlight efekti */
+        .d-none.d-md-block tr.highlight-row {
+            background-color: #ebf8ff !important;
+            transition: background-color 0.3s ease;
+        }
+
+        .d-none.d-md-block tr.highlight-row:hover {
+            background-color: #bee3f8 !important;
+        }
+
+        /* SweetAlert2 z-index ayarı */
+        .swal2-container {
+            z-index: 99999 !important;
+        }
+
+        /* Modal için z-index ayarı */
+        #turYonetimModal {
+            z-index: 9999;
+        }
+
+        /* Kritik stok kartı stili */
+        [data-bs-theme="light"] .kritik-stok-card {
+            background-color: #ffebee !important;
+            border-left: 4px solid #d32f2f !important;
+            color: #d32f2f !important;
+        }
+
+        [data-bs-theme="light"] .kritik-stok-card .text-muted {
+            color: rgba(211, 47, 47, 0.7) !important;
+        }
+
+        [data-bs-theme="light"] .kritik-stok-card .btn-outline-primary,
+        [data-bs-theme="light"] .kritik-stok-card .btn-outline-danger {
+            color: #d32f2f !important;
+            border-color: #d32f2f !important;
+        }
+
+        [data-bs-theme="light"] .kritik-stok-card .btn-outline-primary:hover,
+        [data-bs-theme="light"] .kritik-stok-card .btn-outline-danger:hover {
+            background-color: rgba(211, 47, 47, 0.1) !important;
+        }
+
+        [data-bs-theme="light"] .kritik-stok-card .badge {
+            background-color: rgba(211, 47, 47, 0.1) !important;
+            color: #d32f2f !important;
+        }
+
+        /* Kart arkaplan renkleri */
+        [data-bs-theme="light"] .card {
+            background-color: #f8f9fa !important;
+            border-left: 4px solid #dee2e6;
+        }
+
+        [data-bs-theme="dark"] .card {
+            background-color: #212529 !important;
+            border-left: 4px solid #495057;
+        }
+
+        /* Stok miktarına göre renkler */
+        /* Yüksek stok (10+) */
+        [data-bs-theme="light"] .card[data-adet="yuksek"] {
+            background-color: #e3f2fd !important;
+            border-left: 4px solid #1976d2;
+        }
+
+        [data-bs-theme="dark"] .card[data-adet="yuksek"] {
+            background-color: #0d47a1 !important;
+            border-left: 4px solid #42a5f5;
+            color: white;
+        }
+
+        /* Orta stok (5-9) */
+        [data-bs-theme="light"] .card[data-adet="orta"] {
+            background-color: #fff3e0 !important;
+            border-left: 4px solid #f57c00;
+        }
+
+        [data-bs-theme="dark"] .card[data-adet="orta"] {
+            background-color: #e65100 !important;
+            border-left: 4px solid #ffb74d;
+            color: white;
+        }
+
+        /* Kritik stok (0-4) */
+        [data-bs-theme="light"] .kritik-stok-card {
+            background-color: #ffebee !important;
+            border-left: 4px solid #d32f2f !important;
+            color: #d32f2f !important;
+        }
+
+        [data-bs-theme="dark"] .kritik-stok-card {
+            background-color: #c62828 !important;
+            border-left: 4px solid #ef5350 !important;
+            color: white !important;
+        }
+
+        /* Metin ve buton renkleri */
+        [data-bs-theme="dark"] .card[data-adet="yuksek"] .text-muted,
+        [data-bs-theme="dark"] .card[data-adet="orta"] .text-muted,
+        [data-bs-theme="dark"] .kritik-stok-card .text-muted {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        /* Kritik stok kartlarında buton renkleri */
+        [data-bs-theme="light"] .kritik-stok-card .btn-outline-primary,
+        [data-bs-theme="light"] .kritik-stok-card .btn-outline-danger {
+            color: #d32f2f;
+            border-color: #d32f2f;
+        }
+
+        [data-bs-theme="light"] .kritik-stok-card .btn-outline-primary:hover,
+        [data-bs-theme="light"] .kritik-stok-card .btn-outline-danger:hover {
+            background-color: #d32f2f;
+            color: white;
+        }
+
+        /* Badge renkleri */
+        [data-bs-theme="light"] .card[data-adet="yuksek"] .badge {
+            background-color: #1976d2 !important;
+            color: white !important;
+        }
+
+        [data-bs-theme="light"] .card[data-adet="orta"] .badge {
+            background-color: #f57c00 !important;
+            color: white !important;
+        }
+
+        [data-bs-theme="light"] .kritik-stok-card .badge {
+            background-color: #d32f2f !important;
+            color: white !important;
+        }
+
+        [data-bs-theme="dark"] .card[data-adet="yuksek"] .badge {
+            background-color: #42a5f5 !important;
+            color: #0d47a1 !important;
+        }
+
+        [data-bs-theme="dark"] .card[data-adet="orta"] .badge {
+            background-color: #ffb74d !important;
+            color: #e65100 !important;
+        }
+
+        [data-bs-theme="dark"] .kritik-stok-card .badge {
+            background-color: #ef5350 !important;
+            color: white !important;
+        }
+
+        /* Hover efektleri */
+        [data-bs-theme="light"] .card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        [data-bs-theme="dark"] .card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        /* Buton hover efektleri */
+        [data-bs-theme="dark"] .card[data-adet="yuksek"] .btn-outline-primary:hover,
+        [data-bs-theme="dark"] .card[data-adet="yuksek"] .btn-outline-danger:hover {
+            background-color: #42a5f5;
+            color: #0d47a1;
+        }
+
+        [data-bs-theme="dark"] .card[data-adet="orta"] .btn-outline-primary:hover,
+        [data-bs-theme="dark"] .card[data-adet="orta"] .btn-outline-danger:hover {
+            background-color: #ffb74d;
+            color: #e65100;
+        }
+
+        [data-bs-theme="dark"] .kritik-stok-card .btn-outline-primary:hover,
+        [data-bs-theme="dark"] .kritik-stok-card .btn-outline-danger:hover {
+            background-color: #ef5350;
+            color: white;
+        }
+
+        /* Sıralama butonları ve kartlar arası boşluk */
+        .mobile-sort-buttons {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: var(--bs-body-bg);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        [data-bs-theme="dark"] .mobile-sort-buttons {
+            background-color: #2b3035;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .mobile-cards-container {
+            margin-top: 1rem;
+        }
+
+        /* Kart hover efekti */
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            transition: all 0.3s ease;
+        }
+
+        [data-bs-theme="dark"] .card:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+        }
+
+        /* Mobil buton stilleri */
+        @media (max-width: 768px) {
+            .mobile-action-buttons .btn {
+                padding: 0.75rem 1rem;
+                font-size: 1.1rem;
+                min-width: 50px;
+            }
+
+            .mobile-action-buttons .btn i {
+                font-size: 1.2rem;
+            }
+
+            .mobile-action-buttons .btn-group {
+                gap: 0.5rem;
+                display: flex;
+                width: auto;
+            }
+
+            .mobile-action-buttons .btn-outline-primary,
+            .mobile-action-buttons .btn-outline-danger {
+                border-width: 2px;
+            }
+
+            .mobile-action-buttons .btn:active {
+                transform: scale(0.95);
+            }
+
+            /* Kritik stok kartlarında buton renkleri */
+            .kritik-stok-card .mobile-action-buttons .btn-outline-primary,
+            .kritik-stok-card .mobile-action-buttons .btn-outline-danger {
+                color: white;
+                border-color: white;
+            }
+        }
+
+        /* Masaüstü tablo stilleri */
+        .d-none.d-md-block .table {
+            background-color: transparent;
+        }
+
+        .d-none.d-md-block .table tbody tr {
+            transition: background-color 0.3s ease;
+        }
+
+        .d-none.d-md-block .table tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Kritik stok rengi - Masaüstü görnümü */
+        [data-bs-theme="dark"] .d-none.d-md-block tr.kritik-stok {
+            background-color: rgba(220, 38, 38, 0.2) !important;
+            color: #fca5a5 !important;
+        }
+
+        [data-bs-theme="dark"] .d-none.d-md-block tr.kritik-stok:hover {
+            background-color: rgba(220, 38, 38, 0.3) !important;
+            color: #fca5a5 !important;
+        }
+
+        [data-bs-theme="light"] .d-none.d-md-block tr.kritik-stok {
+            background-color: #fef2f2 !important;
+            color: #dc2626 !important;
+        }
+
+        [data-bs-theme="light"] .d-none.d-md-block tr.kritik-stok:hover {
+            background-color: #fee2e2 !important;
+            color: #dc2626 !important;
+        }
+
+        /* Highlight efekti - Masaüstü görünümü */
+        [data-bs-theme="dark"] .d-none.d-md-block tr.highlight-row {
+            background-color: rgba(59, 130, 246, 0.2) !important;
+        }
+
+        [data-bs-theme="dark"] .d-none.d-md-block tr.highlight-row:hover {
+            background-color: rgba(59, 130, 246, 0.3) !important;
+        }
+
+        [data-bs-theme="light"] .d-none.d-md-block tr.highlight-row {
+            background-color: #eff6ff !important;
+        }
+
+        [data-bs-theme="light"] .d-none.d-md-block tr.highlight-row:hover {
+            background-color: #dbeafe !important;
+        }
+
+        /* Mobil kart stilleri */
+        .d-md-none .card {
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            background: var(--bs-body-bg);
+        }
+
+        /* Yüksek stok kartı (DKP Sac) */
+        .d-md-none .card[data-adet="yuksek"] {
+            background: #0d47a1;
+            color: white;
+        }
+
+        .d-md-none .card[data-adet="yuksek"] .mobile-action-buttons .btn {
+            color: white;
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .d-md-none .card[data-adet="yuksek"] .mobile-action-buttons .btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+
+        /* Orta stok kartı (Siyah Sac) */
+        .d-md-none .card[data-adet="orta"] {
+            background: #e65100;
+            color: white;
+        }
+
+        .d-md-none .card[data-adet="orta"] .mobile-action-buttons .btn {
+            color: white;
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .d-md-none .card[data-adet="orta"] .mobile-action-buttons .btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+
+        /* Kritik stok kartı (Galvaniz Sac) */
+        .d-md-none .kritik-stok-card {
+            background: #c62828;
+            color: white;
+        }
+
+        .d-md-none .kritik-stok-card .mobile-action-buttons .btn {
+            color: white;
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .d-md-none .kritik-stok-card .mobile-action-buttons .btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+
+        /* Mobil buton stilleri */
+        .d-md-none .mobile-action-buttons .btn-group {
+            gap: 0.5rem;
+        }
+
+        .d-md-none .mobile-action-buttons .btn {
+            padding: 0.5rem;
+            min-width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px !important;
+            transition: all 0.2s ease;
+            background: transparent;
+            border-width: 2px;
+        }
+
+        .d-md-none .mobile-action-buttons .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Karanlık tema uyumluluğu */
+        [data-bs-theme="dark"] .d-md-none .card {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Badge stilleri */
+        .d-md-none .card .badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+        }
+
+        /* Metin stilleri */
+        .d-md-none .card .text-muted {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        .card, tr {
+            transition: all 0.8s ease !important;
+        }
+        
+        @media (max-width: 768px) {
+            .card {
+                transform-origin: center left;
+                will-change: transform, opacity;
+            }
+        }
+
+        tr {
+            transform-origin: center left;
+            will-change: transform, opacity, background-color;
+        }
+
+        /* Footer stili */
+        .footer {
+            background-color: var(--bs-body-bg);
+            border-top: 1px solid rgba(var(--bs-secondary-rgb), 0.1);
+        }
+
+        .footer-link {
+            color: var(--bs-secondary);
+            transition: color 0.3s ease;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .footer-link:hover {
+            color: var(--bs-primary);
+        }
+
+        .footer small {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .footer small {
+                font-size: 0.8rem;
+            }
+            .footer .mx-2 {
+                margin: 0 0.3rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="https://lh3.googleusercontent.com/p/AF1QipNCZVPwRH5-1LxUM9Ga4EgCBfiNGliIDQ3xzYHS=s680-w680-h510" alt="Favori Lazer Logo">
+                <span>Favori Lazer</span>
+            </a>
+            <div class="navbar-nav-buttons">
+                <a href="/" class="btn btn-light">
+                    <i class="fas fa-boxes me-1"></i>Stok
+                </a>
+                <a href="/fire-sac" class="btn btn-outline-light">
+                    <i class="fas fa-recycle me-1"></i>Fire
+                </a>
+                <a href="{{ url_for('logout') }}" class="btn btn-danger" onclick="return confirm('Çıkış yapmak istediğinizden emin misiniz?')">
+                    <i class="fas fa-sign-out-alt me-1"></i>Çıkış
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- İstatistik Kartlar -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <i class="fas fa-layer-group"></i>
+                    <h3>{{ stoklar|length }}</h3>
+                    <p class="mb-0">Toplam Sac Çeşidi</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <i class="fas fa-boxes"></i>
+                    <h3>{{ stoklar|sum(attribute='adet') }}</h3>
+                    <p class="mb-0">Toplam Plaka</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>{{ stoklar|selectattr('adet', '<', 5)|list|length }}</h3>
+                    <p class="mb-0">Kritik Stok Sayısı</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stok Ekleme Kartı -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0"><i class="fas fa-plus-circle me-2"></i>Yeni Stok Ekle</h5>
+            </div>
+            <div class="card-body">
+                <form id="stokEkleForm" onsubmit="stokEkle(event)">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="kalinlik" class="form-label">Kalınlık (mm)</label>
+                            <input type="number" step="0.1" class="form-control" id="kalinlik" name="kalinlik" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="tur" class="form-label">Tür</label>
+                            <div class="input-group">
+                                <select class="form-select" id="tur" name="tur" required>
+                                    {% for tur in turler %}
+                                    <option value="{{ tur.ad }}">{{ tur.ad }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="button" class="btn btn-outline-secondary" onclick="showTurModal()">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="adet" class="form-label">Adet</label>
+                            <input type="number" class="form-control" id="adet" name="adet" required min="1">
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus-circle me-2"></i>Stok Ekle
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Masaustü görünüm -->
+        <div class="d-none d-md-block">
+            <div class="d-flex justify-content-end mb-3">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="showLowStock">
+                    <label class="form-check-label" for="showLowStock">Kritik Stokları Göster</label>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover" id="stokTable">
+                    <thead class="table-light">
+                        <tr>
+                            <th data-sort="kalinlik">Kalınlık (mm) <i class="fas fa-sort ms-1"></i></th>
+                            <th data-sort="tur">Tür <i class="fas fa-sort ms-1"></i></th>
+                            <th data-sort="adet">Adet <i class="fas fa-sort ms-1"></i></th>
+                            <th data-sort="tarih">Son Güncelleme <i class="fas fa-sort ms-1"></i></th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stok in stoklar %}
+                        <tr data-stock-id="{{ stok.id }}" {% if stok.adet < 5 %}class="kritik-stok"{% endif %}>
+                            <td>{{ stok.kalinlik }}</td>
+                            <td>{{ stok.tur }}</td>
+                            <td>{{ stok.adet }}</td>
+                            <td>{{ stok.tarih.strftime('%d-%m-%Y %H:%M') }}</td>
+                            <td>
+                                <button onclick="showModal('{{ stok.id }}', '{{ stok.adet }}')" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-edit me-1"></i>Değiştir
+                                </button>
+                                <button onclick="stokSil('{{ stok.id }}')" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash me-1"></i>Sil
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Mobil görünüm -->
+        <div class="d-md-none">
+            <div class="mobile-sort-buttons">
+                <div class="btn-group">
+                    <button class="btn" onclick="mobilSirala('kalinlik')">
+                        <i class="fas fa-sort"></i>
+                        <span>Kalınlık</span>
+                    </button>
+                    <button class="btn" onclick="mobilSirala('tur')">
+                        <i class="fas fa-sort"></i>
+                        <span>Tür</span>
+                    </button>
+                    <button class="btn" onclick="mobilSirala('adet')">
+                        <i class="fas fa-sort"></i>
+                        <span>Adet</span>
+                    </button>
+                    <button class="btn" onclick="mobilSirala('tarih')">
+                        <i class="fas fa-sort"></i>
+                        <span>Tarih</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mobile-cards-container">
+                {% for stok in stoklar %}
+                <div class="card mb-3 {% if stok.adet < 5 %}kritik-stok-card{% endif %}" 
+                     data-stok-id="{{ stok.id }}"
+                     data-kalinlik="{{ stok.kalinlik }}" 
+                     data-tur="{{ stok.tur }}" 
+                     data-adet="{{ 'yuksek' if stok.adet >= 10 else 'orta' if stok.adet >= 5 else 'kritik' }}" 
+                     data-tarih="{{ stok.tarih.strftime('%Y%m%d%H%M') }}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="card-title mb-0">{{ stok.kalinlik }} mm {{ stok.tur }}</h5>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="mb-0"><i class="fas fa-layer-group me-2"></i>Adet: {{ stok.adet }}</p>
+                                <small class="text-muted"><i class="fas fa-clock me-2"></i>{{ stok.tarih.strftime('%d.%m.%Y %H:%M') }}</small>
+                            </div>
+                            <div class="mobile-action-buttons">
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-primary rounded-3"
+                                            data-stok-id="{{ stok.id }}"
+                                            data-stok-adet="{{ stok.adet }}"
+                                            onclick="mobilStokDegistir(this.dataset.stokId, this.dataset.stokAdet)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-outline-danger rounded-3"
+                                            data-stok-id="{{ stok.id }}"
+                                            onclick="mobilStokSil(this.dataset.stokId)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5 py-3">
+        <div class="container text-center">
+            <small class="text-muted">
+                © 2024 Tüm hakları saklıdır. Tasarım: <a href="mailto:onrcm@hotmail.com" class="text-decoration-none footer-link">Onur Çam</a>
+                <span class="mx-2">|</span>
+                <a href="https://instagram.com/onur.cm" target="_blank" class="text-decoration-none footer-link">
+                    <i class="fab fa-instagram me-1"></i>@onur.cm
+                </a>
+            </small>
+        </div>
+    </footer>
+
+    <!-- Tür Yönetimi Modal -->
+    <div id="turYonetimModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999;">
+        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bs-body-bg); padding: 20px; border-radius: 8px; width: 90%; max-width: 500px;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">Tür Yönetimi</h5>
+                <button type="button" class="btn-close" onclick="hideTurModal()"></button>
+            </div>
+            
+            <!-- Yeni Tür Ekleme -->
+            <div class="mb-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="yeniTurAdi" placeholder="Yeni tür adı">
+                    <button class="btn btn-primary" onclick="turEkle()">
+                        <i class="fas fa-plus me-1"></i>Ekle
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mevcut Türler Listesi -->
+            <div class="list-group" id="turlerListesi">
+                <!-- Türler JavaScript ile doldurulacak -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Stok Değiştirme Modal -->
+    <div id="customModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999;">
+        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bs-body-bg); padding: 20px; border-radius: 8px; width: 90%; max-width: 400px;">
+            <h5>Stok Miktarını Değiştir</h5>
+            <div class="mb-3">
+                <label for="yeniMiktar" class="form-label">Yeni Stok Miktarı</label>
+                <input type="number" class="form-control" id="yeniMiktar" min="0" required>
+                <input type="hidden" id="stockId">
+            </div>
+            <div class="d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-secondary" onclick="hideModal()">İptal</button>
+                <button type="button" class="btn btn-primary" onclick="stokDegistirOnay()">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-bs-theme', savedTheme);
+            
+            // Tablo sıralama ve filtreleme
+            const table = document.getElementById('stokTable');
+            const headers = table.querySelectorAll('th[data-sort]');
+            const tbody = table.querySelector('tbody');
+            const showLowStock = document.getElementById('showLowStock');
+            let currentSort = { column: null, direction: 'asc' };
+
+            // Sıralama fonksiyonu
+            function sortTable(column) {
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                const direction = currentSort.column === column && currentSort.direction === 'asc' ? 'desc' : 'asc';
+                
+                headers.forEach(header => header.classList.remove('asc', 'desc'));
+                const currentHeader = document.querySelector(`th[data-sort="${column}"]`);
+                currentHeader.classList.add(direction);
+
+                rows.sort((a, b) => {
+                    let aValue = a.querySelector(`td:nth-child(${Array.from(headers).findIndex(h => h.dataset.sort === column) + 1})`).textContent;
+                    let bValue = b.querySelector(`td:nth-child(${Array.from(headers).findIndex(h => h.dataset.sort === column) + 1})`).textContent;
+
+                    if (column === 'kalinlik' || column === 'adet') {
+                        aValue = parseFloat(aValue);
+                        bValue = parseFloat(bValue);
+                    } else if (column === 'tarih') {
+                        aValue = new Date(aValue.split(' ')[0].split('-').reverse().join('-'));
+                        bValue = new Date(bValue.split(' ')[0].split('-').reverse().join('-'));
+                    }
+
+                    return direction === 'asc' ? 
+                        (aValue > bValue ? 1 : -1) : 
+                        (aValue < bValue ? 1 : -1);
+                });
+
+                currentSort = { column, direction };
+                rows.forEach(row => tbody.appendChild(row));
+            }
+
+            // Sıralama için tıklama olayları
+            headers.forEach(header => {
+                header.addEventListener('click', () => sortTable(header.dataset.sort));
+            });
+
+            // Kritik stok filtresi
+            showLowStock.addEventListener('change', function() {
+                const rows = tbody.querySelectorAll('tr');
+                rows.forEach(row => {
+                    const adet = parseInt(row.querySelector('td:nth-child(3)').textContent);
+                    row.style.display = this.checked && adet > 4 ? 'none' : '';
+                });
+            });
+
+            // Kritik stok kontrolü
+            const rows = tbody.querySelectorAll('tr');
+            rows.forEach(row => {
+                const adet = parseInt(row.querySelector('td:nth-child(3)').textContent);
+                const kalinlik = parseFloat(row.querySelector('td:nth-child(1)').textContent);
+                const kritikSinir = kalinlik <= 5 ? 5 : 1;
+                
+                if (adet <= kritikSinir) {
+                    row.classList.add('kritik-stok');
+                }
+            });
+
+            // Stok silme onayı
+            document.querySelectorAll('.sil-btn').forEach(link => {
+                link.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    const result = await Swal.fire({
+                        title: 'Emin misiniz?',
+                        text: "Bu stok kaydını silmek istediğinizden emin misiniz?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Evet, sil!',
+                        cancelButtonText: 'İptal'
+                    });
+
+                    if (result.isConfirmed) {
+                        fetch(this.href)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    // Satırı tablodan kaldır
+                                    const row = this.closest('tr');
+                                    row.style.opacity = '0';
+                                    setTimeout(() => {
+                                        row.remove();
+                                    }, 400);
+
+                                    // İstatistikleri AJAX ile güncelle
+                                    istatistikleriGuncelle();
+
+                                    Swal.fire({
+                                        title: 'Başarıl!',
+                                        text: data.message,
+                                        icon: 'success',
+                                        confirmButtonColor: '#28a745',
+                                        confirmButtonText: 'Tamam'
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Hata!',
+                                        text: data.error || 'Bir hata oluştu',
+                                        icon: 'error',
+                                        confirmButtonColor: '#d33',
+                                        confirmButtonText: 'Tamam'
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire({
+                                    title: 'Hata!',
+                                    text: 'İşlem sırasında bir hata oluştu. Lütfen tekrar deneyin.',
+                                    icon: 'error',
+                                    confirmButtonColor: '#d33',
+                                    confirmButtonText: 'Tamam'
+                                });
+                            });
+                    }
+                });
+            });
+        });
+
+        // Modal fonksiyonları
+        function showModal(id, mevcutAdet) {
+            document.getElementById('stockId').value = id;
+            document.getElementById('yeniMiktar').value = mevcutAdet;
+            document.getElementById('customModal').style.display = 'block';
+            document.getElementById('yeniMiktar').focus();
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideModal() {
+            document.getElementById('customModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        async function stokDegistirOnay() {
+            const miktar = parseInt(document.getElementById('yeniMiktar').value);
+            const id = document.getElementById('stockId').value;
+
+            if (miktar < 0) {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: 'Stok miktarı 0 veya daha büyük olmalıdır',
+                    icon: 'error',
+                    confirmButtonColor: '#dc3545'
+                });
+                return;
+            }
+
+            hideModal();
+
+            try {
+                const response = await fetch('/stok-guncelle', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `id=${id}&miktar=${miktar}`
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Tabloyu güncelle
+                    const row = document.querySelector(`tr[data-stock-id="${id}"]`);
+                    if (row) {
+                        const adetCell = row.querySelector('td:nth-child(3)');
+                        const tarihCell = row.querySelector('td:nth-child(4)');
+                        
+                        if (miktar === 0) {
+                            // Stok sıfırsa satırı kaldır
+                            row.style.opacity = '0';
+                            setTimeout(() => row.remove(), 400);
+                        } else {
+                            // Stok miktarını güncelle
+                            adetCell.textContent = miktar;
+                            tarihCell.textContent = new Date().toLocaleString('tr-TR');
+                            
+                            // Kritik stok sınıfını güncelle
+                            row.classList.remove('kritik-stok');
+                            if (miktar < 5) {
+                                row.classList.add('kritik-stok');
+                            }
+                        }
+
+                        // İstatistikleri güncelle
+                        istatistikleriGuncelle();
+                    }
+
+                    Swal.fire({
+                        title: 'Başarılı!',
+                        text: 'Stok miktarı güncellendi',
+                        icon: 'success',
+                        confirmButtonColor: '#198754'
+                    });
+                } else {
+                    throw new Error(data.error || 'Güncelleme başarısız');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Hata!',
+                    text: error.message || 'Stok güncellenirken bir hata oluştu',
+                    icon: 'error',
+                    confirmButtonColor: '#dc3545'
+                });
+            }
+        }
+
+        // Tür yönetimi fonksiyonları
+        function showTurModal() {
+            document.getElementById('turYonetimModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            turListesiniGuncelle();
+        }
+
+        function hideTurModal() {
+            document.getElementById('turYonetimModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function turListesiniGuncelle() {
+            fetch('/turler')
+                .then(response => response.json())
+                .then(turler => {
+                    const liste = document.getElementById('turlerListesi');
+                    liste.innerHTML = '';
+                    
+                    turler.forEach(tur => {
+                        const item = document.createElement('div');
+                        item.className = 'list-group-item d-flex justify-content-between align-items-center';
+                        item.innerHTML = `
+                            <span>${tur.ad}</span>
+                            <button class="btn btn-danger btn-sm" onclick="turSil(${tur.id}, '${tur.ad}')">
+                                <i class="fas fa-trash me-1"></i>Sil
+                            </button>
+                        `;
+                        liste.appendChild(item);
+                    });
+                });
+        }
+
+        function turEkle() {
+            const turAdi = document.getElementById('yeniTurAdi').value.trim();
+            if (!turAdi) {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: 'Tür adı boş olamaz!',
+                    icon: 'error',
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'Tamam'
+                });
+                return;
+            }
+
+            const formData = new URLSearchParams();
+            formData.append('tur_adi', turAdi);
+
+            fetch('/tur/ekle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('yeniTurAdi').value = '';
+                    turListesiniGuncelle();
+                    turSelectGuncelle();
+                } else {
+                    Swal.fire({
+                        title: 'Hata!',
+                        text: data.error,
+                        icon: 'error',
+                        confirmButtonColor: '#d33',
+                        confirmButtonText: 'Tamam'
+                    });
+                }
+            });
+        }
+
+        function turSil(id, ad) {
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: `"${ad}" türünü silmek istediğinizden emin misiniz?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Evet, sil!',
+                cancelButtonText: 'İptal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/tur/sil/${id}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            turListesiniGuncelle();
+                            turSelectGuncelle();
+                        } else {
+                            Swal.fire({
+                                title: 'Hata!',
+                                text: data.error,
+                                icon: 'error',
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: 'Tamam'
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        function turSelectGuncelle() {
+            fetch('/turler')
+                .then(response => response.json())
+                .then(turler => {
+                    const turSelect = document.getElementById('tur');
+                    const sonSecilenTur = localStorage.getItem('sonSecilenTur');
+                    
+                    // Select içeriğini temizle
+                    turSelect.innerHTML = '';
+                    
+                    // Türleri ekle
+                    turler.forEach(tur => {
+                        const option = document.createElement('option');
+                        option.value = tur.ad;
+                        option.textContent = tur.ad;
+                        if (tur.ad === sonSecilenTur) {
+                            option.selected = true;
+                        }
+                        turSelect.appendChild(option);
+                    });
+                });
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        function azaltStok(id) {
+            Swal.fire({
+                title: 'Stok Azalt',
+                text: 'Kaç adet azaltmak istiyorsunuz?',
+                input: 'number',
+                inputAttributes: {
+                    min: 1,
+                    step: 1
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Azalt',
+                cancelButtonText: 'İptal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const miktar = parseInt(result.value);
+                    if (miktar > 0) {
+                        fetch('/azalt', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: `id=${id}&miktar=${miktar}`
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                location.reload();
+                            } else {
+                                Swal.fire('Hata!', data.error, 'error');
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+        function silStok(id) {
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: 'Bu stok kaydnı silmek istediğinize emin misiniz?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Evet, Sil',
+                cancelButtonText: 'İptal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/sil/${id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            Swal.fire('Hata!', data.error, 'error');
+                        }
+                    });
+                }
+            });
+        }
+
+        // Mobil görünüm için sıralama değişkenleri
+        let aktifSiralamaAlani = null;
+        let aktifSiralamaYonu = 'asc';
+
+        // Mobil görünüm için sıralama fonksiyonu
+        function mobilSirala(alan) {
+            aktifSiralamaAlani = alan;
+            aktifSiralamaYonu = aktifSiralamaYonu === 'asc' ? 'desc' : 'asc';
+            
+            try {
+                // Sıralama butonlarını güncelle
+                const buttons = document.querySelectorAll('.mobile-sort-buttons .btn');
+                if (buttons) {
+                    buttons.forEach(button => {
+                        button.classList.remove('active');
+                        if (button.textContent.toLowerCase().includes(alan)) {
+                            button.classList.add('active');
+                        }
+                    });
+                }
+                
+                mobilListeyiGuncelle();
+            } catch (error) {
+                console.error('Sıralama hatası:', error);
+            }
+        }
+
+        // Mobil liste güncelleme fonksiyonu
+        function mobilListeyiGuncelle() {
+            try {
+                const container = document.querySelector('.d-md-none');
+                if (!container) return;
+
+                const buttonGroup = container.querySelector('.mobile-sort-buttons');
+                if (!buttonGroup) return;
+
+                const mobileCardsContainer = container.querySelector('.mobile-cards-container');
+                if (!mobileCardsContainer) return;
+
+                const cards = Array.from(mobileCardsContainer.querySelectorAll('.card'));
+                if (!cards.length) return;
+
+                // Kartları sırala
+                if (aktifSiralamaAlani) {
+                    cards.sort((a, b) => {
+                        try {
+                            const aContent = a.querySelector('.card-body');
+                            const bContent = b.querySelector('.card-body');
+                            
+                            if (!aContent || !bContent) return 0;
+
+                            let aValue, bValue;
+
+                            switch(aktifSiralamaAlani) {
+                                case 'kalinlik':
+                                    aValue = parseFloat(aContent.querySelector('.card-title')?.textContent?.match(/[\d.]+/)?.[0]) || 0;
+                                    bValue = parseFloat(bContent.querySelector('.card-title')?.textContent?.match(/[\d.]+/)?.[0]) || 0;
+                                    break;
+                                case 'adet':
+                                    aValue = parseInt(aContent.querySelector('.card-text')?.textContent?.match(/\d+/)?.[0]) || 0;
+                                    bValue = parseInt(bContent.querySelector('.card-text')?.textContent?.match(/\d+/)?.[0]) || 0;
+                                    break;
+                                case 'tarih':
+                                    aValue = aContent.querySelector('small')?.textContent?.trim() || '';
+                                    bValue = bContent.querySelector('small')?.textContent?.trim() || '';
+                                    break;
+                                case 'tur':
+                                    aValue = aContent.querySelector('.card-title')?.textContent?.split('mm')?.[1]?.trim() || '';
+                                    bValue = bContent.querySelector('.card-title')?.textContent?.split('mm')?.[1]?.trim() || '';
+                                    break;
+                                default:
+                                    return 0;
+                            }
+
+                            if (aktifSiralamaYonu === 'asc') {
+                                return aValue > bValue ? 1 : -1;
+                            } else {
+                                return aValue < bValue ? 1 : -1;
+                            }
+                        } catch (error) {
+                            console.error('Sıralama karşılaştırma hatası:', error);
+                            return 0;
+                        }
+                    });
+
+                    // Sıralanmış kartları yeniden yerleştir
+                    cards.forEach(card => {
+                        mobileCardsContainer.appendChild(card);
+                    });
+                }
+            } catch (error) {
+                console.error('Mobil liste güncelleme hatası:', error);
+            }
+        }
+
+        // Stok durumunu güncelleme fonksiyonu
+        function updateMobileStockStatus() {
+            try {
+                const cards = document.querySelectorAll('.d-md-none .card');
+                if (!cards) return;
+
+                cards.forEach(card => {
+                    const cardContent = card.querySelector('.card-body');
+                    if (!cardContent) return;
+
+                    const cardText = cardContent.querySelector('.card-text');
+                    const cardTitle = cardContent.querySelector('.card-title');
+                    
+                    if (!cardText || !cardTitle) return;
+
+                    const adetMatch = cardText.textContent.match(/\d+/);
+                    const kalinlikMatch = cardTitle.textContent.match(/[\d.]+/);
+                    
+                    if (!adetMatch || !kalinlikMatch) return;
+
+                    const adet = parseInt(adetMatch[0]) || 0;
+                    const kalinlik = parseFloat(kalinlikMatch[0]) || 0;
+                    const kritikSinir = kalinlik <= 5 ? 5 : 1;
+                    
+                    // Renk sınıflarını temizle
+                    card.classList.remove('bg-danger', 'bg-warning', 'bg-primary', 'text-white');
+                    
+                    // Yeni renk sınıflarını ekle
+                    if (adet <= kritikSinir) {
+                        card.classList.add('bg-danger', 'text-white');
+                    } else if (adet >= 10) {
+                        card.classList.add('bg-primary', 'text-white');
+                    } else {
+                        card.classList.add('bg-warning', 'text-white');
+                    }
+                });
+            } catch (error) {
+                console.error('Stok durumu güncelleme hatası:', error);
+            }
+        }
+
+        // Stok ekleme fonksiyonunu güncelle
+        function stokEkle(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = {
+                kalinlik: formData.get('kalinlik'),
+                tur: formData.get('tur'),
+                adet: formData.get('adet')
+            };
+
+            // Son seçilen türü localStorage'a kaydet
+            localStorage.setItem('sonSecilenTur', data.tur);
+
+            fetch('/ekle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Stok eklenirken bir hata oluştu');
+                }
+                return response.text();
+            })
+            .then(() => {
+                // Sadece kalınlık ve adet alanlarını temizle
+                document.getElementById('kalinlik').value = '';
+                document.getElementById('adet').value = '';
+                
+                // Stok listesini güncelle
+                fetch(window.location.href)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        
+                        // Masaüstü görünümü güncelle
+                        const desktopView = doc.querySelector('.d-none.d-md-block');
+                        document.querySelector('.d-none.d-md-block').innerHTML = desktopView.innerHTML;
+                        
+                        // Mobil görünümü güncelle
+                        const mobileView = doc.querySelector('.d-md-none');
+                        document.querySelector('.d-md-none').innerHTML = mobileView.innerHTML;
+                        
+                        // İstatistik kartlarını güncelle
+                        const statsCards = doc.querySelectorAll('.stats-card');
+                        document.querySelectorAll('.stats-card').forEach((card, index) => {
+                            card.innerHTML = statsCards[index].innerHTML;
+                        });
+
+                        // Mevcut sıralamayı uygula
+                        if (aktifSiralamaAlani) {
+                            mobilListeyiGuncelle();
+                        }
+
+                        // Kritik stok kontrolünü tekrar çalıştır
+                        updateMobileStockStatus();
+                    });
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hata!',
+                    text: error.message
+                });
+            });
+        }
+
+        // Sayfa yüklendiğinde son seçilen türü seç
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                updateMobileStockStatus();
+            } catch (error) {
+                console.error('Sayfa yükleme hatası:', error);
+            }
+        });
+
+        // Tür değiştiğinde localStorage'a kaydet
+        document.getElementById('tur').addEventListener('change', function() {
+            localStorage.setItem('sonSecilenTur', this.value);
+        });
+
+        // Mobil görünüm için stok azaltma ve silme fonksiyonları
+        function mobilStokAzalt(id) {
+            Swal.fire({
+                title: 'Stok Azalt',
+                text: 'Kaç adet azaltmak istiyorsunuz?',
+                input: 'number',
+                inputAttributes: {
+                    min: 1,
+                    step: 1
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Azalt',
+                cancelButtonText: 'İptal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const miktar = parseInt(result.value);
+                    if (miktar > 0) {
+                        const formData = new URLSearchParams();
+                        formData.append('id', id);
+                        formData.append('miktar', miktar);
+
+                        fetch('/azalt', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Sayfayı yenilemeden görünümü güncelle
+                                fetch(window.location.href)
+                                    .then(response => response.text())
+                                    .then(html => {
+                                        const parser = new DOMParser();
+                                        const doc = parser.parseFromString(html, 'text/html');
+                                        
+                                        // Mobil görünümü güncelle
+                                        const mobileView = doc.querySelector('.d-md-none');
+                                        document.querySelector('.d-md-none').innerHTML = mobileView.innerHTML;
+                                        
+                                        // İstatistik kartlarını güncelle
+                                        const statsCards = doc.querySelectorAll('.stats-card');
+                                        document.querySelectorAll('.stats-card').forEach((card, index) => {
+                                            card.innerHTML = statsCards[index].innerHTML;
+                                        });
+
+                                        // Kritik stok kontrolünü tekrar çalıştır
+                                        updateMobileStockStatus();
+                                    });
+                            } else {
+                                Swal.fire('Hata!', data.error, 'error');
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+        // Mobil görünüm için silme fonksiyonu
+        async function mobilStokSil(id) {
+            await stokSil(id); // Ana silme fonksiyonunu kullan
+        }
+
+        // İstatistikleri güncelle
+        function istatistikleriGuncelle() {
+            console.log('İstatistikler güncelleniyor...');
+            fetch('/istatistikler')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('İstatistikler alınamadı');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        console.error('İstatistik hatası:', data.error);
+                        return;
+                    }
+
+                    console.log('Alınan istatistikler:', data);
+
+                    // Toplam Sac Çeşidi
+                    const toplamSacCesidi = document.querySelector('.stats-card:nth-child(1) h3');
+                    if (toplamSacCesidi) {
+                        toplamSacCesidi.textContent = data.toplam_cesit;
+                        console.log('Toplam çeşit güncellendi:', data.toplam_cesit);
+                    }
+
+                    // Toplam Plaka
+                    const toplamPlaka = document.querySelector('.stats-card:nth-child(2) h3');
+                    if (toplamPlaka) {
+                        toplamPlaka.textContent = data.toplam_plaka;
+                        console.log('Toplam plaka güncellendi:', data.toplam_plaka);
+                    }
+
+                    // Kritik Stok Sayısı
+                    const kritikStokSayisi = document.querySelector('.stats-card:nth-child(3) h3');
+                    if (kritikStokSayisi) {
+                        kritikStokSayisi.textContent = data.kritik_stok;
+                        console.log('Kritik stok güncellendi:', data.kritik_stok);
+                    }
+                })
+                .catch(error => {
+                    console.error('İstatistikler güncellenirken hata:', error);
+                });
+        }
+
+        // Stok silme fonksiyonu - Masaüstü
+        async function stokSil(id) {
+            try {
+                const result = await Swal.fire({
+                    title: 'Emin misiniz?',
+                    text: "Bu stok kaydını silmek istediğinizden emin misiniz?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Evet, sil!',
+                    cancelButtonText: 'İptal'
+                });
+
+                if (result.isConfirmed) {
+                    const response = await fetch(`/sil/${id}`);
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Başarı mesajını göster ve kapanmasını bekle
+                        await Swal.fire({
+                            title: 'Başarılı!',
+                            text: 'Stok başarıyla silindi',
+                            icon: 'success',
+                            timer: 1000,
+                            showConfirmButton: false
+                        });
+
+                        // Popup kapandıktan sonra animasyonları başlat
+                        // Masaüstü görünümünden satırı kaldır
+                        const row = document.querySelector(`tr[data-stock-id="${id}"]`);
+                        if (row) {
+                            row.style.transition = 'all 0.8s ease';
+                            row.style.backgroundColor = 'rgba(220, 53, 69, 0.1)';
+                            
+                            setTimeout(() => {
+                                row.style.opacity = '0';
+                                row.style.transform = 'translateX(-100%)';
+                            }, 100);
+
+                            setTimeout(() => {
+                                row.style.maxHeight = '0';
+                                row.style.padding = '0';
+                                row.style.margin = '0';
+                            }, 600);
+
+                            setTimeout(() => row.remove(), 900);
+                        }
+
+                        // Mobil görünümünden kartı kaldır
+                        const card = document.querySelector(`.card[data-stok-id="${id}"]`);
+                        if (card) {
+                            // Önce kartı seçili hale getir
+                            card.style.transition = 'all 0.8s ease';
+                            card.style.boxShadow = '0 0 15px rgba(220, 53, 69, 0.5)';
+                            
+                            // Silme animasyonunu başlat
+                            setTimeout(() => {
+                                card.style.opacity = '0';
+                                card.style.transform = 'translateX(-100%) scale(0.9)';
+                                card.style.marginLeft = '-20px';
+                            }, 100);
+
+                            // Animasyon bittikten sonra kartı kaldır
+                            setTimeout(() => {
+                                card.style.maxHeight = '0';
+                                card.style.margin = '0';
+                                card.style.padding = '0';
+                            }, 600);
+
+                            // En son kartı DOM'dan kaldır
+                            setTimeout(() => card.remove(), 900);
+                        }
+
+                        // İstatistikleri güncelle
+                        setTimeout(() => location.reload(), 1000);
+                    } else {
+                        throw new Error(data.error || 'Silme işlemi başarısız');
+                    }
+                }
+            } catch (error) {
+                console.error('Silme hatası:', error);
+                Swal.fire({
+                    title: 'Hata!',
+                    text: error.message || 'Silme işlemi sırasında bir hata oluştu',
+                    icon: 'error',
+                    confirmButtonColor: '#dc3545'
+                });
+            }
+        }
+
+        // İstatistikleri güncelleme fonksiyonu
+        async function updateStats() {
+            try {
+                console.log('İstatistikler güncelleniyor...');
+                const response = await fetch('/istatistikler');
+                
+                if (!response.ok) {
+                    throw new Error('İstatistikler alınamadı');
+                }
+
+                const data = await response.json();
+                console.log('Alınan istatistikler:', data);
+
+                // Toplam Sac Çeşidi
+                const toplamSacCesidi = document.querySelector('.stats-card:nth-child(1) h3');
+                if (toplamSacCesidi) {
+                    toplamSacCesidi.textContent = data.toplam_cesit;
+                    console.log('Toplam çeşit güncellendi:', data.toplam_cesit);
+                }
+
+                // Toplam Plaka
+                const toplamPlaka = document.querySelector('.stats-card:nth-child(2) h3');
+                if (toplamPlaka) {
+                    toplamPlaka.textContent = data.toplam_plaka;
+                    console.log('Toplam plaka güncellendi:', data.toplam_plaka);
+                }
+
+                // Kritik Stok Sayısı
+                const kritikStokSayisi = document.querySelector('.stats-card:nth-child(3) h3');
+                if (kritikStokSayisi) {
+                    kritikStokSayisi.textContent = data.kritik_stok;
+                    console.log('Kritik stok güncellendi:', data.kritik_stok);
+                }
+            } catch (error) {
+                console.error('İstatistik güncelleme hatası:', error);
+            }
+        }
+
+        // Mobil stok değiştirme fonksiyonu
+        async function mobilStokDegistir(id, mevcutAdet) {
+            try {
+                const { value: yeniMiktar } = await Swal.fire({
+                    title: 'Stok Miktarını Değiştir',
+                    input: 'number',
+                    inputLabel: 'Yeni Stok Miktarı',
+                    inputValue: mevcutAdet,
+                    showCancelButton: true,
+                    cancelButtonText: 'İptal',
+                    confirmButtonText: 'Kaydet',
+                    confirmButtonColor: '#0d6efd',
+                    cancelButtonColor: '#6c757d',
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'Lütfen bir değer girin!';
+                        }
+                        if (value < 0) {
+                            return 'Stok miktarı 0 veya daha büyük olmalıdır!';
+                        }
+                    }
+                });
+
+                if (yeniMiktar) {
+                    const response = await fetch('/stok-guncelle', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `id=${id}&miktar=${yeniMiktar}`
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        const card = document.querySelector(`.card[data-stok-id="${id}"]`);
+                        if (card) {
+                            if (yeniMiktar === '0') {
+                                // Stok sıfırsa kartı kaldır
+                                card.style.opacity = '0';
+                                setTimeout(() => card.remove(), 400);
+                            } else {
+                                // Stok miktarını güncelle
+                                const adetText = card.querySelector('p.mb-0');
+                                if (adetText) {
+                                    adetText.innerHTML = `<i class="fas fa-layer-group me-2"></i>Adet: ${yeniMiktar}`;
+                                }
+                                
+                                // Tarih güncelle
+                                const tarihText = card.querySelector('small.text-muted');
+                                if (tarihText) {
+                                    tarihText.innerHTML = `<i class="fas fa-clock me-2"></i>${new Date().toLocaleString('tr-TR')}`;
+                                }
+
+                                // Kart sınıflarını güncelle
+                                card.classList.remove('kritik-stok-card');
+                                card.dataset.adet = yeniMiktar >= 10 ? 'yuksek' : yeniMiktar >= 5 ? 'orta' : 'kritik';
+                                if (yeniMiktar < 5) {
+                                    card.classList.add('kritik-stok-card');
+                                }
+                            }
+
+                            // İstatistikleri güncelle
+                            istatistikleriGuncelle();
+                        }
+
+                        Swal.fire({
+                            title: 'Başarılı!',
+                            text: 'Stok miktarı güncellendi',
+                            icon: 'success',
+                            confirmButtonColor: '#198754',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        throw new Error(data.error || 'Güncelleme başarısız');
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Hata!',
+                    text: error.message || 'Stok güncellenirken bir hata oluştu',
+                    icon: 'error',
+                    confirmButtonColor: '#dc3545'
+                });
+            }
+        }
+    </script>
+</body>
+</html> 

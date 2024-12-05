@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="tr" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favori Lazer - Fire/Sac Takibi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a1a2e;
+            --secondary-color: #16213e;
+            --accent-color: #1b2a4a;
+            --hover-color: #0f3460;
+            --bs-body-bg: #0a0a0a;
+            --bs-body-color: #e0e0e0;
+        }
+        
+        body {
+            background-color: var(--bs-body-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            object-fit: cover;
+        }
+
+        .navbar-brand span {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .navbar-nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .navbar-brand {
+                gap: 0.8rem;
+            }
+
+            .navbar-brand img {
+                height: 35px;
+                width: 35px;
+            }
+
+            .navbar-brand span {
+                font-size: 1.3rem;
+            }
+
+            .navbar-nav-buttons {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+
+            .navbar-nav-buttons .btn {
+                padding: 0.8rem;
+                font-size: 1rem;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                white-space: nowrap;
+            }
+
+            .navbar-nav-buttons .btn i {
+                font-size: 1.1rem;
+                margin-right: 0.4rem;
+            }
+
+            /* Mobil istatistik kartları */
+            .stats-card {
+                padding: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .stats-card i {
+                font-size: 2.8rem;
+                margin-bottom: 1.2rem;
+            }
+
+            .stats-card h3 {
+                font-size: 2.2rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .stats-card p {
+                font-size: 1.1rem;
+            }
+
+            /* Mobil form elemanları */
+            .form-control {
+                padding: 1rem 1.2rem;
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+            }
+
+            .btn-primary {
+                padding: 1rem 1.5rem;
+                font-size: 1.1rem;
+            }
+
+            /* Mobil kart butonları */
+            .mobile-action-buttons .btn {
+                padding: 0.8rem 1.2rem;
+                font-size: 1.2rem;
+                height: auto;
+                min-width: 50px;
+            }
+
+            .mobile-action-buttons .btn i {
+                font-size: 1.2rem;
+            }
+
+            /* Mobil sıralama butonları */
+            .mobile-sort-buttons .btn {
+                padding: 1rem 1.2rem;
+                font-size: 1.1rem;
+            }
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            background-color: var(--bs-body-bg);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+            color: white !important;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 1.2rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--hover-color), var(--accent-color));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .fire-sac-image {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        [data-bs-theme="dark"] .fire-sac-image {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .fire-sac-image:hover {
+            transform: scale(1.02);
+        }
+
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table thead th {
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: 500;
+            border: none;
+            padding: 1rem;
+        }
+
+        .table td {
+            vertical-align: middle;
+            padding: 1rem;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(var(--bs-primary-rgb), 0.05);
+        }
+
+        .accordion-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 10px !important;
+            padding: 1.2rem;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, var(--hover-color), var(--accent-color));
+            color: white;
+        }
+
+        .accordion-button::after {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .btn-outline-light {
+            border-width: 2px;
+            font-weight: 500;
+        }
+
+        .btn-outline-light:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+
+        .theme-switch {
+            border-width: 2px !important;
+            padding: 0.5rem 1rem;
+        }
+
+        .theme-switch:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        [data-bs-theme="dark"] .card {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        [data-bs-theme="dark"] .table thead th {
+            background-color: var(--accent-color);
+        }
+
+        [data-bs-theme="dark"] .table-hover tbody tr:hover {
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        .modal-content {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        #preview {
+            display: none;
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        /* Badge stili */
+        .badge.plaka-badge {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: none;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .badge.plaka-badge i {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .badge.plaka-badge:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        /* Modal resim stilleri */
+        .modal-image {
+            max-width: 100%;
+            max-height: 80vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* Modal boyutu */
+        .modal-dialog.modal-lg {
+            max-width: 90%;
+            margin: 1.75rem auto;
+        }
+
+        @media (max-width: 768px) {
+            .modal-dialog.modal-lg {
+                max-width: 95%;
+                margin: 1rem auto;
+            }
+            .modal-image {
+                max-height: 70vh;
+            }
+        }
+
+        /* Modal içeriği */
+        .modal-content {
+            background-color: var(--bs-body-bg);
+            border: none;
+            border-radius: 15px;
+        }
+
+        .modal-header {
+            border-bottom: none;
+            padding: 1rem 1rem 0.5rem 1rem;
+        }
+
+        .modal-body {
+            padding: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Kullanılıyor butonu stilleri */
+        .btn-kullaniliyor {
+            background-color: #fd7e14;
+            color: white;
+            border: none;
+        }
+        
+        .btn-kullaniliyor:hover {
+            background-color: #e76b00;
+            color: white;
+        }
+        
+        .btn-kullaniliyor.active {
+            background-color: #fd7e14;
+            color: white;
+            box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-kullaniliyor.inactive {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        /* Ölçüler için özel stil */
+        .olcu-badge {
+            background-color: #2c3e50;
+            color: white;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+
+        .olcu-badge i {
+            color: #ecf0f1;
+            margin-right: 5px;
+        }
+
+        /* Sac türü için özel stil */
+        .tur-badge {
+            background-color: #34495e;
+            color: white;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .tur-badge i {
+            color: #ecf0f1;
+            margin-right: 5px;
+        }
+
+        /* Mobil görünüm kartları için özel stiller */
+        @media (max-width: 768px) {
+            .fire-sac-card {
+                border: none;
+                border-radius: 15px;
+                margin-bottom: 1rem;
+                transition: all 0.3s ease;
+            }
+
+            /* Kullanılmayan (kahverengi tonlar) */
+            [data-bs-theme="light"] .fire-sac-card[data-kullaniliyor="false"] {
+                background-color: rgba(38, 56, 34, 0.15) !important;
+                border-left: 4px solid #263822 !important;
+                color: #263822 !important;
+            }
+
+            [data-bs-theme="dark"] .fire-sac-card[data-kullaniliyor="false"] {
+                background-color: #263822 !important;
+                border-left: 4px solid #4a6b40 !important;
+                color: #d8e6d3 !important;
+            }
+
+            /* Kullanımda (yeşil tonlar) */
+            [data-bs-theme="light"] .fire-sac-card[data-kullaniliyor="true"] {
+                background-color: rgba(160, 82, 45, 0.15) !important;
+                border-left: 4px solid #a0522d !important;
+                color: #a0522d !important;
+            }
+
+            [data-bs-theme="dark"] .fire-sac-card[data-kullaniliyor="true"] {
+                background-color: #a0522d !important;
+                border-left: 4px solid #c17f5d !important;
+                color: #ffe6d8 !important;
+            }
+
+            .mobile-btn-group {
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            .mobile-btn-group .btn {
+                padding: 0.75rem;
+                font-size: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .mobile-info {
+                background-color: rgba(0, 0, 0, 0.03) !important;
+                padding: 0.75rem;
+                border-radius: 10px;
+                margin-bottom: 1rem;
+            }
+
+            [data-bs-theme="dark"] .mobile-info {
+                background-color: rgba(255, 255, 255, 0.03) !important;
+            }
+        }
+
+        /* Badge renkleri */
+        .badge.bg-success {
+            background-color: #263822 !important;
+            opacity: 0.9;
+        }
+
+        .badge.bg-warning {
+            background-color: #a0522d !important;
+            opacity: 0.9;
+        }
+
+        /* Özel buton renkleri */
+        .btn-forest {
+            background-color: #263822;
+            border-color: #263822;
+            color: white;
+        }
+
+        .btn-forest:hover {
+            background-color: #1a2617;
+            border-color: #1a2617;
+            color: white;
+        }
+
+        .btn-outline-forest {
+            color: #263822;
+            border-color: #263822;
+        }
+
+        .btn-outline-forest:hover {
+            background-color: #263822;
+            color: white;
+        }
+
+        .btn-brown {
+            background-color: #a0522d;
+            border-color: #a0522d;
+            color: white;
+        }
+
+        .btn-brown:hover {
+            background-color: #8b4513;
+            border-color: #8b4513;
+            color: white;
+        }
+
+        .btn-outline-brown {
+            color: #a0522d;
+            border-color: #a0522d;
+        }
+
+        .btn-outline-brown:hover {
+            background-color: #a0522d;
+            color: white;
+        }
+
+        /* Badge renkleri */
+        .badge.bg-forest {
+            background-color: #263822 !important;
+            color: white !important;
+        }
+
+        .badge.bg-brown {
+            background-color: #a0522d !important;
+            color: white !important;
+        }
+
+        /* Özel buton stilleri */
+        .btn-outline-danger {
+            color: #dc3545;
+            border-color: #dc3545;
+            border-width: 2px;
+        }
+
+        .btn-outline-danger:hover {
+            color: white;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #bb2d3b;
+            border-color: #b02a37;
+            color: white;
+        }
+
+        /* Resim stilleri */
+        .fire-sac-image {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        [data-bs-theme="dark"] .fire-sac-image {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .fire-sac-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* Modal stilleri */
+        .modal-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 20px;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .modal-fullscreen {
+            padding: 0 !important;
+        }
+
+        .modal-fullscreen .modal-content {
+            min-height: 100vh;
+            border: none;
+            border-radius: 0;
+        }
+
+        .modal-fullscreen .modal-body {
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        [data-bs-theme="dark"] .modal-fullscreen .modal-body {
+            background-color: rgba(0, 0, 0, 0.95);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1060;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* Mobil kart başlık stili */
+        .fire-sac-card .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .fire-sac-card .kalınlık-badge {
+            background-color: rgba(0, 0, 0, 0.2);
+            color: inherit;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        [data-bs-theme="dark"] .fire-sac-card .kalınlık-badge {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Kalınlık grup başlığı stili */
+        .kalinlik-title {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0 1rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .kalinlik-title:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .kalinlik-title .title-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .kalinlik-title i {
+            font-size: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .kalinlik-title span {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .kalinlik-title .badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .kalinlik-title .toggle-icon {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-left: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .kalinlik-title.collapsed .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 768px) {
+            .kalinlik-title {
+                padding: 0.8rem 1rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+
+            .kalinlik-title i {
+                font-size: 1.2rem;
+                width: 35px;
+                height: 35px;
+            }
+
+            .kalinlik-title span {
+                font-size: 1.1rem;
+            }
+
+            .kalinlik-title .badge {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        .kalinlik-content {
+            transition: all 0.3s ease;
+        }
+
+        .kalinlik-content.collapsed {
+            display: none;
+        }
+
+        /* Masaüstü durum butonları */
+        .d-none.d-md-block .durum-btn.btn-brown {
+            background-color: #f97316 !important;
+            border-color: #f97316 !important;
+            color: white !important;
+        }
+
+        .d-none.d-md-block .durum-btn.btn-brown:hover {
+            background-color: #ea580c !important;
+            border-color: #ea580c !important;
+        }
+
+        .d-none.d-md-block .durum-btn.btn-forest {
+            background-color: #15803d !important;
+            border-color: #15803d !important;
+            color: white !important;
+            font-weight: 500 !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .d-none.d-md-block .durum-btn.btn-forest:hover {
+            background-color: #166534 !important;
+            border-color: #166534 !important;
+        }
+
+        .d-none.d-md-block .durum-btn {
+            font-size: 0.875rem !important;
+            padding: 0.4rem 0.8rem !important;
+            border-radius: 6px !important;
+        }
+
+        /* Fire saç grup başlıkları stilleri */
+        .fire-group-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0 1rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .fire-group-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .fire-group-header .title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .fire-group-header .title i {
+            font-size: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fire-group-header .title span {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .fire-group-header .count {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .fire-group-header {
+                padding: 0.8rem 1rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+
+            .fire-group-header .title i {
+                font-size: 1.2rem;
+                width: 35px;
+                height: 35px;
+            }
+
+            .fire-group-header .title span {
+                font-size: 1.1rem;
+            }
+
+            .fire-group-header .count {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Grup içeriği için stil */
+        .fire-group-content {
+            margin-bottom: 2rem;
+        }
+
+        /* Footer stili */
+        .footer {
+            background-color: var(--bs-body-bg);
+            border-top: 1px solid rgba(var(--bs-secondary-rgb), 0.1);
+        }
+
+        .footer-link {
+            color: var(--bs-secondary);
+            transition: color 0.3s ease;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .footer-link:hover {
+            color: var(--bs-primary);
+        }
+
+        .footer small {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .footer small {
+                font-size: 0.8rem;
+            }
+            .footer .mx-2 {
+                margin: 0 0.3rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="https://lh3.googleusercontent.com/p/AF1QipNCZVPwRH5-1LxUM9Ga4EgCBfiNGliIDQ3xzYHS=s680-w680-h510" alt="Favori Lazer Logo">
+                <span>Favori Lazer</span>
+            </a>
+            <div class="navbar-nav-buttons">
+                <a href="/" class="btn btn-outline-light">
+                    <i class="fas fa-boxes me-1"></i>Stok
+                </a>
+                <a href="/fire-sac" class="btn btn-light">
+                    <i class="fas fa-recycle me-1"></i>Fire
+                </a>
+                <a href="{{ url_for('logout') }}" class="btn btn-danger" onclick="return confirm('Çıkış yapmak istediğinizden emin misiniz?')">
+                    <i class="fas fa-sign-out-alt me-1"></i>Çıkış
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Fire Sac Ekleme Formu -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0"><i class="fas fa-plus-circle me-2"></i>Fire Sac Ekle</h5>
+            </div>
+            <div class="card-body">
+                <form id="fireSacEkleForm" onsubmit="fireSacEkle(event)" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="kalinlik" class="form-label">Kalınlık (mm)</label>
+                            <input type="number" step="0.1" class="form-control" id="kalinlik" name="kalinlik" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tur" class="form-label">Sac Türü</label>
+                            <select class="form-select" id="tur" name="tur" required>
+                                {% for tur in turler %}
+                                <option value="{{ tur.ad }}">{{ tur.ad }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="uzunluk" class="form-label">Boy (mm)</label>
+                            <input type="number" class="form-control" id="uzunluk" name="uzunluk">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="genislik" class="form-label">En (mm)</label>
+                            <input type="number" class="form-control" id="genislik" name="genislik">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="notlar" class="form-label">Not</label>
+                        <textarea class="form-control" id="notlar" name="notlar" rows="2"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="foto" class="form-label">Fotoğraf</label>
+                        <input type="file" class="form-control" id="foto" name="foto" accept="image/*" onchange="previewImage(this)">
+                        <img id="preview" class="mt-2" style="display: none; max-width: 200px;">
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus-circle me-2"></i>Ekle
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Fire Sac Listesi -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-list me-2"></i>Fire Sac Listesi
+                </h5>
+            </div>
+            <div class="card-body">
+                <!-- Masaüstü görünüm -->
+                <div class="d-none d-md-block">
+                    {% for kalinlik in sorted_kalinliklar %}
+                    <div class="kalinlik-group mb-4">
+                        <h4 class="kalinlik-title" onclick="toggleGroup(this)" data-group="desktop-{{ kalinlik }}">
+                            <div class="title-content">
+                                <i class="fas fa-layer-group"></i>
+                                <span>{{ kalinlik }} mm Fire Saclar</span>
+                                <span class="badge">{{ grouped_fire_saclar[kalinlik]|length }} adet</span>
+                            </div>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </h4>
+                        <div class="kalinlik-content" id="desktop-{{ kalinlik }}">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Fotoğraf</th>
+                                            <th>Sac Türü</th>
+                                            <th>Ölçüler</th>
+                                            <th>Tarih</th>
+                                            <th>Not</th>
+                                            <th>İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for fire in grouped_fire_saclar[kalinlik] %}
+                                        <tr data-fire-id="{{ fire.id }}">
+                                            <td>
+                                                {% if fire.foto %}
+                                                <img src="{{ url_for('static', filename='uploads/' + fire.foto) }}" 
+                                                     alt="Fire Sac" class="img-thumbnail" style="max-height: 50px;">
+                                                {% else %}
+                                                <span class="text-muted">-</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <span class="tur-badge">
+                                                    <i class="fas fa-layer-group"></i>
+                                                    {{ fire.tur }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {% if fire.uzunluk and fire.genislik %}
+                                                <span class="olcu-badge">
+                                                    <i class="fas fa-ruler"></i>
+                                                    {{ fire.uzunluk }}x{{ fire.genislik }} mm
+                                                </span>
+                                                {% else %}
+                                                <span class="text-muted">-</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ fire.tarih.strftime('%d-%m-%Y %H:%M') }}</td>
+                                            <td class="notlar-cell text-start">
+                                                {% if fire.notlar %}
+                                                {{ fire.notlar }}
+                                                {% else %}
+                                                <span class="text-muted">-</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <button type="button" 
+                                                        data-id="{{ fire.id }}"
+                                                        class="btn btn-sm durum-btn {% if fire.kullaniliyor %}btn-brown active{% else %}btn-forest inactive{% endif %}"
+                                                        title="{% if fire.kullaniliyor %}Kullanımda{% else %}Kullanlmıyor{% endif %}">
+                                                    <i class="fas {% if fire.kullaniliyor %}fa-tools{% else %}fa-check{% endif %} me-1"></i>
+                                                    {% if fire.kullaniliyor %}
+                                                    Kullanımda
+                                                    {% else %}
+                                                    Kullanılmıyor
+                                                    {% endif %}
+                                                </button>
+                                                <button onclick="fireSacSil('{{ fire.id }}')" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash me-1"></i>Sil
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Mobil görünüm -->
+                <div class="d-md-none">
+                    {% for kalinlik in sorted_kalinliklar %}
+                    <div class="kalinlik-group mb-4">
+                        <h4 class="kalinlik-title" onclick="toggleGroup(this)" data-group="mobile-{{ kalinlik }}">
+                            <div class="title-content">
+                                <i class="fas fa-layer-group"></i>
+                                <span>{{ kalinlik }} mm Fire Saclar</span>
+                                <span class="badge">{{ grouped_fire_saclar[kalinlik]|length }} adet</span>
+                            </div>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </h4>
+                        <div class="kalinlik-content" id="mobile-{{ kalinlik }}">
+                            {% for fire in grouped_fire_saclar[kalinlik] %}
+                            <div class="fire-sac-card card" data-kullaniliyor="{{ 'true' if fire.kullaniliyor else 'false' }}">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div class="card-title">
+                                            {{ fire.tur }}
+                                        </div>
+                                    </div>
+                                    
+                                    {% if fire.foto %}
+                                    <div class="text-center">
+                                        <img 
+                                            src="{{ url_for('static', filename='uploads/' + fire.foto) }}"
+                                            class="fire-sac-image"
+                                            data-image-url="{{ url_for('static', filename='uploads/' + fire.foto) }}"
+                                            alt="Fire Sac"
+                                        >
+                                    </div>
+                                    {% endif %}
+
+                                    <div class="mobile-info">
+                                        <div class="row mb-2">
+                                            <div class="col-6">
+                                                <small><i class="fas fa-arrows-alt-h me-1"></i>En: {{ fire.genislik or '-' }} mm</small>
+                                            </div>
+                                            <div class="col-6">
+                                                <small><i class="fas fa-arrows-alt-v me-1"></i>Boy: {{ fire.uzunluk or '-' }} mm</small>
+                                            </div>
+                                        </div>
+                                        {% if fire.notlar %}
+                                        <small><i class="fas fa-sticky-note me-1"></i>{{ fire.notlar }}</small>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="mobile-btn-group">
+                                        <button class="btn {% if fire.kullaniliyor %}btn-forest{% else %}btn-brown{% endif %}"
+                                                onclick="mobilDurumDegistir('{{ fire.id }}')"
+                                                style="flex: 2">
+                                            <i class="fas {% if fire.kullaniliyor %}fa-tools{% else %}fa-check{% endif %} me-2"></i>
+                                            {% if fire.kullaniliyor %}
+                                            Kullanımda
+                                            {% else %}
+                                            Kullanılmıyor
+                                            {% endif %}
+                                        </button>
+                                        <button class="btn btn-danger"
+                                                onclick="mobilFireSacSil('{{ fire.id }}')"
+                                                style="flex: 1">
+                                            <i class="fas fa-trash me-2"></i>
+                                            Sil
+                                        </button>
+                                    </div>
+
+                                    <div class="text-center mt-3">
+                                        <small class="text-muted">
+                                            <i class="fas fa-clock me-1"></i>{{ fire.tarih.strftime('%d.%m.%Y %H:%M') }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5 py-3">
+        <div class="container text-center">
+            <small class="text-muted">
+                © 2024 Tüm hakları saklıdır. Tasarım: <a href="mailto:onrcm@hotmail.com" class="text-decoration-none footer-link">Onur Çam</a>
+                <span class="mx-2">|</span>
+                <a href="https://instagram.com/onur.cm" target="_blank" class="text-decoration-none footer-link">
+                    <i class="fab fa-instagram me-1"></i>@onur.cm
+                </a>
+            </small>
+        </div>
+    </footer>
+
+    <!-- Fotoğraf Görüntüleme Modal -->
+    <div class="modal fade modal-fullscreen" id="imageModal" tabindex="-1">
+        <button type="button" class="modal-close-btn" data-bs-dismiss="modal">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-dialog modal-dialog-centered m-0">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-image-container">
+                        <img id="modalImage" src="" class="modal-image" alt="Büyük Görüntü">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Sayfa yüklendiğinde kaydedilmi temayı uygula
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-bs-theme', savedTheme);
+        });
+
+        // Tema deği��tirme fonksiyonu
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        function previewImage(input) {
+            const preview = document.getElementById('preview');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        function showImageModal(imageUrl, title) {
+            const modal = new bootstrap.Modal(document.getElementById('imageModal'));
+            document.getElementById('modalImage').src = imageUrl;
+            document.getElementById('imageModalTitle').textContent = title;
+            modal.show();
+        }
+
+        // Son görüntülenen accordion'u hatırla
+        document.addEventListener('DOMContentLoaded', function() {
+            const lastOpenedAccordion = localStorage.getItem('lastOpenedAccordion');
+            if (lastOpenedAccordion) {
+                const accordion = document.querySelector(lastOpenedAccordion);
+                if (accordion) {
+                    accordion.classList.add('show');
+                    const button = accordion.previousElementSibling.querySelector('.accordion-button');
+                    button.classList.remove('collapsed');
+                }
+            }
+
+            // Accordion açıldığında localStorage'a kaydet
+            const accordions = document.querySelectorAll('.accordion-collapse');
+            accordions.forEach(accordion => {
+                accordion.addEventListener('shown.bs.collapse', function() {
+                    localStorage.setItem('lastOpenedAccordion', '#' + this.id);
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tüm durum butonlarına event listener ekle
+            document.querySelectorAll('.durum-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    durumDegistir(id, this);
+                });
+            });
+        });
+
+        function durumDegistir(id, button) {
+            fetch(`/fire-sac/durum-degistir/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (data.kullaniliyor) {
+                            button.classList.remove('inactive');
+                            button.classList.add('active');
+                            button.innerHTML = '<i class="fas fa-tools me-1"></i>Kullanılıyor';
+                            button.title = 'Kullanımda';
+                        } else {
+                            button.classList.remove('active');
+                            button.classList.add('inactive');
+                            button.innerHTML = '<i class="fas fa-tools me-1"></i>Kullanımda Değil';
+                            button.title = 'Kullanımda Değil';
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Durum değiştirme işlemi sırasında bir hata oluştu.');
+                });
+        }
+
+        function durumDegistir(id) {
+            fetch(`/fire-sac/durum-degistir/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                }
+            });
+        }
+
+        function showImage(url) {
+            Swal.fire({
+                imageUrl: url,
+                imageAlt: 'Fire Sac Fotoğrafı',
+                width: '90%',
+                confirmButtonText: 'Kapat'
+            });
+        }
+
+        function fireSacEkle(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            
+            fetch('/fire-sac/ekle', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Fire sac eklenirken bir hata oluştu');
+                }
+                return response.text();
+            })
+            .then(() => {
+                // Formu temizle
+                event.target.reset();
+                document.getElementById('preview').style.display = 'none';
+                
+                // Başarı mesajı göster
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Başarılı!',
+                    text: 'Fire sac başarıyla eklendi',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+
+                // Fire sac listesini gncelle
+                fetch(window.location.href)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        
+                        // Masaüstü görünümü güncelle
+                        const desktopView = doc.querySelector('.d-none.d-md-block');
+                        document.querySelector('.d-none.d-md-block').innerHTML = desktopView.innerHTML;
+                        
+                        // Mobil grünümü güncelle
+                        const mobileView = doc.querySelector('.d-md-none');
+                        document.querySelector('.d-md-none').innerHTML = mobileView.innerHTML;
+                    });
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hata!',
+                    text: error.message
+                });
+            });
+        }
+
+        // Mobil görünüm için durum değiştirme ve silme fonksiyonları
+        function mobilDurumDegistir(id) {
+            fetch(`/fire-sac/durum-degistir/${id}`, {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: 'Durum değiştirme işlemi sırasında bir hata oluştu',
+                    icon: 'error',
+                    background: document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#1a1a1a' : '#fff',
+                    color: document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#fff' : '#000'
+                });
+            });
+        }
+
+        function mobilFireSacSil(id) {
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: 'Bu fire sacı silmek istediğinize emin misiniz?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Evet, Sil',
+                cancelButtonText: 'İptal',
+                reverseButtons: true,
+                background: document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#1a1a1a' : '#fff',
+                color: document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#fff' : '#000'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/fire-sac/sil/${id}`, {
+                        method: 'GET'
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            Swal.fire({
+                                title: 'Başarılı!',
+                                text: 'Fire sac başarıyla silindi',
+                                icon: 'success',
+                                timer: 1500,
+                                showConfirmButton: false,
+                                background: document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#1a1a1a' : '#fff',
+                                color: document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#fff' : '#000'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            throw new Error('Silme işlemi başarısız oldu');
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            title: 'Hata!',
+                            text: 'Fire sac silinirken bir hata oluştu',
+                            icon: 'error',
+                            background: document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#1a1a1a' : '#fff',
+                            color: document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#fff' : '#000'
+                        });
+                    });
+                }
+            });
+        }
+
+        // Mobil görünüm için resim önizleme
+        function mobilShowImage(url) {
+            const modal = new bootstrap.Modal(document.getElementById('imageModal'));
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = url;
+            
+            // Resim yüklendiğinde modalı göster
+            modalImg.onload = function() {
+                modal.show();
+            };
+
+            // Modal kapatıldığında resmi temizle
+            document.getElementById('imageModal').addEventListener('hidden.bs.modal', function () {
+                modalImg.src = '';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fire sac resimlerine tıklama olayı ekle
+            document.querySelectorAll('.fire-sac-image').forEach(img => {
+                img.addEventListener('click', function() {
+                    mobilShowImage(this.dataset.imageUrl);
+                });
+            });
+        });
+
+        // Grup açma/kapama fonksiyonu
+        function toggleGroup(titleElement) {
+            const groupId = titleElement.getAttribute('data-group');
+            const contentElement = document.getElementById(groupId);
+            
+            // Başlık ve içerik elementlerine collapsed sınıfını ekle/kaldır
+            titleElement.classList.toggle('collapsed');
+            contentElement.classList.toggle('collapsed');
+
+            // İkon animasyonunu güncelle
+            const icon = titleElement.querySelector('.toggle-icon');
+            if (titleElement.classList.contains('collapsed')) {
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+
+            // Local storage'a durumu kaydet
+            const isCollapsed = titleElement.classList.contains('collapsed');
+            localStorage.setItem(groupId + '-collapsed', isCollapsed);
+        }
+
+        // Sayfa yüklendiğinde önceki durumları geri yükle
+        document.addEventListener('DOMContentLoaded', function() {
+            const titles = document.querySelectorAll('.kalinlik-title');
+            titles.forEach(title => {
+                const groupId = title.getAttribute('data-group');
+                const contentElement = document.getElementById(groupId);
+                const wasCollapsed = localStorage.getItem(groupId + '-collapsed') === 'true';
+                
+                if (wasCollapsed) {
+                    title.classList.add('collapsed');
+                    contentElement.classList.add('collapsed');
+                    const icon = title.querySelector('.toggle-icon');
+                    if (icon) {
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                }
+            });
+        });
+
+        // Masaüstü fotoğraf tıklama olaylarını ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sadece masaüstü görünümü için
+            const desktopImages = document.querySelectorAll('.d-none.d-md-block .img-thumbnail');
+            desktopImages.forEach(img => {
+                img.style.cursor = 'pointer';
+                img.addEventListener('click', function() {
+                    const imageUrl = this.src;
+                    Swal.fire({
+                        imageUrl: imageUrl,
+                        imageAlt: 'Fire Sac Fotoğrafı',
+                        width: '80%',
+                        showCloseButton: true,
+                        showConfirmButton: false,
+                        customClass: {
+                            popup: 'swal-large-image',
+                            image: 'img-fluid'
+                        }
+                    });
+                });
+            });
+        });
+
+        // SweetAlert büyük resim stili
+        const style = document.createElement('style');
+        style.textContent = `
+            .swal-large-image {
+                background: rgba(0, 0, 0, 0.9);
+            }
+            .swal-large-image .swal2-image {
+                max-height: 80vh;
+                object-fit: contain;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Fire sac silme fonksiyonu - Masaüstü
+        async function fireSacSil(id) {
+            try {
+                const result = await Swal.fire({
+                    title: 'Emin misiniz?',
+                    text: "Bu fire sacı silmek istediğinizden emin misiniz?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Evet, sil!',
+                    cancelButtonText: 'İptal'
+                });
+
+                if (result.isConfirmed) {
+                    const response = await fetch(`/fire-sac/sil/${id}`);
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Tablodan satırı kaldır
+                        const row = document.querySelector(`tr[data-fire-id="${id}"]`);
+                        if (row) {
+                            // Grup referansını al
+                            const group = row.closest('.kalinlik-group');
+                            const tbody = group.querySelector('tbody');
+                            
+                            // Satırı animasyonla kaldır
+                            row.style.opacity = '0';
+                            await new Promise(resolve => setTimeout(resolve, 400));
+                            row.remove();
+
+                            // Kalan satır sayısını kontrol et
+                            const remainingRows = tbody.querySelectorAll('tr').length;
+                            
+                            if (remainingRows === 0) {
+                                // Grubu animasyonla kaldır
+                                group.style.opacity = '0';
+                                await new Promise(resolve => setTimeout(resolve, 400));
+                                group.remove();
+                            } else {
+                                // Grup sayısını güncelle
+                                const badge = group.querySelector('.badge');
+                                if (badge) {
+                                    badge.textContent = `${remainingRows} adet`;
+                                }
+                            }
+                        }
+
+                        // Başarı mesajı göster
+                        await Swal.fire({
+                            title: 'Başarılı!',
+                            text: data.message,
+                            icon: 'success',
+                            confirmButtonColor: '#198754'
+                        });
+                    } else {
+                        throw new Error(data.error || 'Silme işlemi başarısız');
+                    }
+                }
+            } catch (error) {
+                console.error('Silme hatası:', error);
+                await Swal.fire({
+                    title: 'Hata!',
+                    text: error.message || 'Silme işlemi sırasında bir hata oluştu.',
+                    icon: 'error',
+                    confirmButtonColor: '#dc3545'
+                });
+            }
+        }
+    </script>
+</body>
+</html> 
