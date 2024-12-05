@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="tr" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favori Lazer - Giriş</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a1a2e;
+            --secondary-color: #16213e;
+            --accent-color: #1b2a4a;
+            --hover-color: #0f3460;
+            --bs-body-bg: #0a0a0a;
+            --bs-body-color: #e0e0e0;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 15px;
+        }
+
+        .login-container {
+            background-color: rgba(26, 26, 46, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border: 3px solid var(--accent-color);
+        }
+
+        .login-header h4 {
+            color: var(--bs-body-color);
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--accent-color);
+            color: var(--bs-body-color);
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(27, 42, 74, 0.25);
+            border-color: var(--hover-color);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--bs-body-color);
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, var(--accent-color), var(--hover-color));
+            border: none;
+            color: white;
+            padding: 0.8rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            width: 100%;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(135deg, var(--hover-color), var(--accent-color));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .alert {
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: rgba(220, 53, 69, 0.1);
+            border: 1px solid rgba(220, 53, 69, 0.2);
+            color: #ff6b6b;
+        }
+
+        @media (max-width: 576px) {
+            .login-container {
+                padding: 1.5rem;
+                width: 90%;
+            }
+
+            .login-header img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .form-control {
+                padding: 1rem 1.2rem;
+                font-size: 1.1rem;
+                margin-bottom: 1.2rem;
+            }
+
+            .btn-login {
+                padding: 1.2rem;
+                font-size: 1.2rem;
+                margin-top: 1.2rem;
+            }
+
+            .btn-login i {
+                font-size: 1.2rem;
+            }
+
+            .alert {
+                padding: 1.2rem;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <img src="https://lh3.googleusercontent.com/p/AF1QipNCZVPwRH5-1LxUM9Ga4EgCBfiNGliIDQ3xzYHS=s680-w680-h510" alt="Favori Lazer Logo">
+            <h4>Favori Lazer</h4>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="mb-3">
+                <input type="password" class="form-control" name="sifre" placeholder="Şifre" required autofocus>
+            </div>
+            <button type="submit" class="btn btn-login">
+                <i class="fas fa-sign-in-alt me-2"></i>Giriş Yap
+            </button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
