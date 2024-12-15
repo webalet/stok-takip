@@ -1,17 +1,20 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 from functools import wraps
 from werkzeug.utils import secure_filename
 from config import SIFRE, SECRET_KEY, UPLOAD_FOLDER, MAX_CONTENT_LENGTH, ALLOWED_EXTENSIONS
+from PIL import Image
+import io
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///stok.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/webalet/stoktakip/stok.db'
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)  # Beni hatırla için 30 günlük session
 
 db = SQLAlchemy(app)
 
@@ -33,7 +36,9 @@ class MetalStok(db.Model):
     kalinlik = db.Column(db.Float, nullable=False)
     tur = db.Column(db.String(50), nullable=False)
     adet = db.Column(db.Integer, nullable=False)
-    tarih = db.Column(db.DateTime, default=datetime.utcnow)
+    uzunluk = db.Column(db.Integer)
+    genislik = db.Column(db.Integer)
+    tarih = db.Column(db.DateTime, default=lambda: datetime.now() + timedelta(hours=3))
 
 class FireSac(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -43,13 +48,13 @@ class FireSac(db.Model):
     genislik = db.Column(db.Integer)
     notlar = db.Column(db.Text)
     foto = db.Column(db.String(255))
-    tarih = db.Column(db.DateTime, default=datetime.utcnow)
+    tarih = db.Column(db.DateTime, default=lambda: datetime.now() + timedelta(hours=3))
     kullaniliyor = db.Column(db.Boolean, default=False)
 
 class MetalTuru(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ad = db.Column(db.String(50), nullable=False, unique=True)
-    tarih = db.Column(db.DateTime, default=datetime.utcnow)
+    tarih = db.Column(db.DateTime, default=lambda: datetime.now() + timedelta(hours=3))
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -71,7 +76,10 @@ with app.app_context():
 def login():
     if request.method == 'POST':
         sifre = request.form.get('sifre')
+        remember = request.form.get('remember') == 'on'
+        
         if sifre == SIFRE:
+            session.permanent = remember  # Beni hatırla seçeneği
             session['logged_in'] = True
             return redirect(url_for('ana_sayfa'))
         else:
@@ -80,7 +88,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session.pop('logged_in', None)
+    session.clear()
     return redirect(url_for('login'))
 
 @app.route('/')
@@ -113,6 +121,66 @@ def fire_sac():
                          sorted_kalinliklar=sorted_kalinliklar,
                          turler=turler)
 
+# Resim sıkıştırma fonksiyonu
+def compress_image(image_file, max_size=(800, 800), quality=85):
+    try:
+        # Resmi aç
+        img = Image.open(image_file)
+        
+        # EXIF bilgisine göre resmi döndür
+        try:
+            if hasattr(img, '_getexif'):
+                exif = img._getexif()
+                if exif is not None:
+                    orientation = exif.get(274)  # 274: Orientation tag
+                    if orientation == 3:
+                        img = img.rotate(180, expand=True)
+                    elif orientation == 6:
+                        img = img.rotate(270, expand=True)
+                    elif orientation == 8:
+                        img = img.rotate(90, expand=True)
+        except:
+            pass  # EXIF okuma hatalarını yoksay
+        
+        # Resmi boyutlandır
+        img.thumbnail(max_size, Image.Resampling.LANCZOS)
+        
+        # Resmi JPEG formatına dönüştür ve sıkıştır
+        output = io.BytesIO()
+        
+        # PNG dosyalarını JPEG'e dönüştür
+        if img.mode in ('RGBA', 'LA'):
+            background = Image.new('RGB', img.size, (255, 255, 255))
+            background.paste(img, mask=img.split()[-1])
+            img = background
+        
+        img.save(output, format='JPEG', quality=quality, optimize=True)
+        output.seek(0)
+        
+        return output
+    except Exception as e:
+        print(f"Resim sıkıştırma hatası: {str(e)}")
+        return None
+
+# Genel hata yönetimi için yardımcı fonksiyon
+def handle_error(e, default_message="Bir hata oluştu"):
+    db.session.rollback()
+    error_message = str(e) if str(e) else default_message
+    return jsonify({
+        'success': False,
+        'error': error_message
+    }), 500
+
+# Veritabanı işlemleri için yardımcı fonksiyon
+def safe_commit():
+    try:
+        db.session.commit()
+        return True
+    except Exception as e:
+        db.session.rollback()
+        print(f"Veritabanı hatası: {str(e)}")
+        return False
+
 @app.route('/fire-sac/ekle', methods=['POST'])
 @login_required
 def fire_sac_ekle():
@@ -130,10 +198,18 @@ def fire_sac_ekle():
             if not allowed_file(foto.filename):
                 flash('Geçersiz dosya türü!', 'error')
                 return redirect(url_for('fire_sac'))
-                
+            
+            compressed_image = compress_image(foto)
+            if compressed_image is None:
+                flash('Resim sıkıştırma hatası!', 'error')
+                return redirect(url_for('fire_sac'))
+            
             foto_adi = secure_filename(foto.filename)
             foto_adi = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{foto_adi}"
-            foto.save(os.path.join(app.config['UPLOAD_FOLDER'], foto_adi))
+            foto_adi = foto_adi.rsplit('.', 1)[0] + '.jpg'
+            
+            with open(os.path.join(app.config['UPLOAD_FOLDER'], foto_adi), 'wb') as f:
+                f.write(compressed_image.getvalue())
         
         yeni_fire = FireSac(
             kalinlik=kalinlik,
@@ -145,15 +221,22 @@ def fire_sac_ekle():
         )
         
         db.session.add(yeni_fire)
-        db.session.commit()
-        
+        if not safe_commit():
+            if foto_adi:
+                try:
+                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], foto_adi))
+                except:
+                    pass
+            flash('Fire sac eklenirken bir hata oluştu!', 'error')
+            return redirect(url_for('fire_sac'))
+            
+        flash('Fire sac başarıyla eklendi!', 'success')
         return redirect(url_for('fire_sac'))
         
     except Exception as e:
-        flash(f'Fire sac eklenirken bir hata oluştu: {str(e)}', 'error')
-        return redirect(url_for('fire_sac'))
+        return handle_error(e, "Fire sac eklenirken bir hata oluştu")
 
-@app.route('/fire-sac/sil/<int:id>')
+@app.route('/fire-sac/sil/<int:id>', methods=['GET', 'POST'])
 @login_required
 def fire_sac_sil(id):
     try:
@@ -183,27 +266,41 @@ def fire_sac_sil(id):
 @app.route('/ekle', methods=['POST'])
 @login_required
 def stok_ekle():
-    kalinlik = float(request.form['kalinlik'])
-    tur = request.form['tur']
-    adet = int(request.form['adet'])
-    
-    # Aynı kalınlık ve türde stok var mı kontrol et
-    mevcut_stok = MetalStok.query.filter_by(
-        kalinlik=kalinlik,
-        tur=tur
-    ).first()
-    
-    if mevcut_stok:
-        # Mevcut stok varsa adeti güncelle
-        mevcut_stok.adet += adet
-        mevcut_stok.tarih = datetime.utcnow()  # Son güncelleme tarihini güncelle
-    else:
-        # Yeni stok ekle
-        yeni_stok = MetalStok(kalinlik=kalinlik, tur=tur, adet=adet)
-        db.session.add(yeni_stok)
-    
-    db.session.commit()
-    return redirect(url_for('ana_sayfa'))
+    try:
+        kalinlik = float(request.form['kalinlik'])
+        tur = request.form['tur']
+        adet = int(request.form['adet'])
+        uzunluk = int(request.form['uzunluk'])
+        genislik = int(request.form['genislik'])
+        
+        # Aynı kalınlık, tür ve boyutta stok var mı kontrol et
+        mevcut_stok = MetalStok.query.filter_by(
+            kalinlik=kalinlik,
+            tur=tur,
+            uzunluk=uzunluk,
+            genislik=genislik
+        ).first()
+        
+        if mevcut_stok:
+            # Mevcut stok varsa adeti güncelle
+            mevcut_stok.adet += adet
+            mevcut_stok.tarih = datetime.utcnow()
+        else:
+            # Yeni stok ekle
+            yeni_stok = MetalStok(
+                kalinlik=kalinlik, 
+                tur=tur, 
+                adet=adet,
+                uzunluk=uzunluk,
+                genislik=genislik
+            )
+            db.session.add(yeni_stok)
+        
+        db.session.commit()
+        return redirect(url_for('ana_sayfa'))
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/azalt', methods=['POST'])
 @login_required
@@ -327,28 +424,42 @@ def istatistikler():
 @login_required
 def stok_guncelle():
     try:
-        id = int(request.form['id'])
-        yeni_miktar = int(request.form['miktar'])
+        stok_id = request.form.get('id', type=int)
+        yeni_adet = request.form.get('miktar', type=int)
         
-        if yeni_miktar < 0:
-            return jsonify({'success': False, 'error': 'Stok miktarı 0 veya daha büyük olmalıdır'}), 400
+        if not stok_id or yeni_adet is None:
+            return jsonify({
+                'success': False,
+                'error': 'Geçersiz parametreler'
+            }), 400
+            
+        stok = MetalStok.query.get_or_404(stok_id)
+        stok.adet = yeni_adet
+        stok.tarih = datetime.now() + timedelta(hours=3)  # Türkiye saati
         
-        stok = MetalStok.query.get_or_404(id)
-        
-        if yeni_miktar == 0:
-            # Stok sıfırsa kaydı sil
-            db.session.delete(stok)
-        else:
-            # Stok miktarını güncelle
-            stok.adet = yeni_miktar
-            stok.tarih = datetime.utcnow()  # Son güncelleme tarihini güncelle
-        
-        db.session.commit()
-        return jsonify({'success': True})
+        if safe_commit():
+            return jsonify({
+                'success': True,
+                'message': 'Stok başarıyla güncellendi'
+            })
+        return handle_error(None, "Stok güncellenirken bir hata oluştu")
         
     except Exception as e:
-        db.session.rollback()
-        return jsonify({'success': False, 'error': str(e)}), 500
+        return handle_error(e)
+
+@app.route('/fire-sac/durum/<int:id>', methods=['POST'])
+@login_required
+def fire_sac_durum(id):
+    try:
+        fire = FireSac.query.get_or_404(id)
+        fire.kullaniliyor = not fire.kullaniliyor
+        db.session.commit()
+        return jsonify({
+            'success': True,
+            'kullaniliyor': fire.kullaniliyor
+        })
+    except Exception as e:
+        return handle_error(e, "Durum güncellenirken bir hata oluştu")
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True)

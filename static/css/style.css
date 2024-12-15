@@ -1,0 +1,759 @@
+:root {
+    --primary-color: #1a1a2e;
+    --secondary-color: #16213e;
+    --accent-color: #1b2a4a;
+    --hover-color: #0f3460;
+    --bs-body-bg: #0a0a0a;
+    --bs-body-color: #e0e0e0;
+}
+
+body {
+    background-color: var(--bs-body-bg);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navbar Styles */
+.navbar {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+    padding: 1rem 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.navbar-brand img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    object-fit: cover;
+}
+
+.navbar-brand span {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+}
+
+.navbar-nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+    background-color: var(--bs-body-bg);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+    color: white !important;
+    border-radius: 15px 15px 0 0 !important;
+    padding: 1.2rem;
+}
+
+/* Button Styles */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--hover-color), var(--accent-color));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Stats Card Styles */
+.stats-card {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.stats-card i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+    background: rgba(255, 255, 255, 0.1);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem auto;
+}
+
+.stats-card h3 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+    color: white;
+}
+
+.stats-card p {
+    font-size: 1.1rem;
+    margin: 0;
+    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Table Styles */
+.table {
+    --bs-table-bg: transparent;
+}
+
+.table thead th {
+    background-color: var(--accent-color);
+    color: white;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s ease;
+    position: relative;
+    padding-right: 25px;
+}
+
+.table thead th:hover {
+    background-color: var(--hover-color);
+}
+
+.table thead th i.fas {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.7;
+}
+
+.table thead th.asc i.fas,
+.table thead th.desc i.fas {
+    opacity: 1;
+}
+
+.table thead th.asc i.fas {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(var(--bs-primary-rgb), 0.05);
+}
+
+/* Form Styles */
+.input-group-custom {
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.input-group-custom .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--bs-body-color);
+    font-size: 0.95rem;
+}
+
+.custom-input {
+    height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 2px solid rgba(var(--bs-primary-rgb), 0.1);
+    background-color: rgba(var(--bs-primary-rgb), 0.03);
+    transition: all 0.2s ease;
+}
+
+.custom-input:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 4px rgba(var(--bs-primary-rgb), 0.1);
+    background-color: var(--bs-body-bg);
+}
+
+/* Select Wrapper Styles */
+.select-wrapper {
+    position: relative;
+    background: var(--bs-body-bg);
+    border-radius: 12px;
+}
+
+.select-wrapper .form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(var(--bs-primary-rgb), 0.03);
+    border: 2px solid rgba(var(--bs-primary-rgb), 0.1);
+    color: var(--bs-body-color);
+    cursor: pointer;
+    border-radius: 12px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 3rem;
+}
+
+/* Dropdown Menü Stilleri */
+.form-select option {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    padding: 10px;
+}
+
+[data-bs-theme="dark"] .form-select option {
+    background-color: #1a1a2e;
+    color: #ffffff;
+}
+
+.form-select option:hover,
+.form-select option:focus,
+.form-select option:active,
+.form-select option:checked {
+    background-color: rgba(var(--bs-primary-rgb), 0.1);
+    color: var(--bs-primary);
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+    }
+
+    .navbar-brand {
+        gap: 0.8rem;
+    }
+
+    .navbar-brand img {
+        height: 35px;
+        width: 35px;
+    }
+
+    .navbar-brand span {
+        font-size: 1.3rem;
+    }
+
+    .navbar-nav-buttons {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .navbar-nav-buttons .btn {
+        padding: 0.8rem;
+        font-size: 1rem;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+    }
+
+    .stats-card {
+        padding: 1.2rem;
+    }
+
+    .stats-card i {
+        font-size: 2rem;
+        width: 50px;
+        height: 50px;
+    }
+
+    .stats-card h3 {
+        font-size: 1.8rem;
+    }
+
+    .stats-card p {
+        font-size: 1rem;
+    }
+
+    .mobile-action-buttons .btn {
+        padding: 0.75rem 1rem;
+        font-size: 1.1rem;
+        min-width: 50px;
+    }
+
+    .mobile-sort-buttons {
+        margin-bottom: 1.5rem;
+        padding: 0.8rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .mobile-sort-buttons .btn-group {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        width: 100%;
+    }
+}
+
+/* Dark Theme Styles */
+[data-bs-theme="dark"] .card {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+[data-bs-theme="dark"] .table thead th {
+    background-color: var(--accent-color);
+}
+
+[data-bs-theme="dark"] .table-hover tbody tr:hover {
+    background-color: rgba(255,255,255,0.05);
+}
+
+/* Footer Styles */
+.footer {
+    background-color: var(--bs-body-bg);
+    border-top: 1px solid rgba(var(--bs-secondary-rgb), 0.1);
+}
+
+.footer-link {
+    color: var(--bs-secondary);
+    transition: color 0.3s ease;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.footer-link:hover {
+    color: var(--bs-primary);
+}
+
+/* Critical Stock Styles */
+.kritik-stok-card {
+    background-color: #ffebee !important;
+    border-left: 4px solid #d32f2f !important;
+    color: #d32f2f !important;
+}
+
+[data-bs-theme="dark"] .kritik-stok-card {
+    background-color: #c62828 !important;
+    border-left: 4px solid #ef5350 !important;
+    color: white !important;
+}
+
+/* Animations */
+.card, tr {
+    transition: all 0.8s ease !important;
+}
+
+@media (max-width: 768px) {
+    .card {
+        transform-origin: center left;
+        will-change: transform, opacity;
+    }
+}
+
+tr {
+    transform-origin: center left;
+    will-change: transform, opacity, background-color;
+}
+
+/* Modal Styles */
+.swal2-container {
+    z-index: 99999 !important;
+}
+
+#turYonetimModal {
+    z-index: 9999;
+}
+
+/* Kritik Stok Stilleri - Masaüstü */
+.d-none.d-md-block tr.kritik-stok {
+    background-color: rgba(220, 38, 38, 0.1) !important;
+    color: #ef4444 !important;
+}
+
+.d-none.d-md-block tr.kritik-stok:hover {
+    background-color: rgba(220, 38, 38, 0.15) !important;
+}
+
+[data-bs-theme="dark"] .d-none.d-md-block tr.kritik-stok {
+    background-color: rgba(220, 38, 38, 0.2) !important;
+    color: #fca5a5 !important;
+}
+
+[data-bs-theme="dark"] .d-none.d-md-block tr.kritik-stok:hover {
+    background-color: rgba(220, 38, 38, 0.3) !important;
+}
+
+/* Liste İşlemleri Stilleri */
+.table td {
+    vertical-align: middle;
+    padding: 1rem;
+    color: var(--bs-body-color);
+}
+
+.table td .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.table td .btn i {
+    font-size: 0.9rem;
+}
+
+/* Mobil Liste İşlemleri */
+@media (max-width: 768px) {
+    .mobile-action-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .mobile-action-buttons .btn {
+        padding: 0.6rem;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-action-buttons .btn i {
+        font-size: 1rem;
+    }
+}
+
+/* Kritik Stok Badge */
+.kritik-stok .badge {
+    background-color: rgba(220, 38, 38, 0.1);
+    color: #ef4444;
+    font-weight: 500;
+}
+
+[data-bs-theme="dark"] .kritik-stok .badge {
+    background-color: rgba(220, 38, 38, 0.2);
+    color: #fca5a5;
+}
+
+/* Mobil Kritik Stok Kartı Stilleri */
+@media (max-width: 768px) {
+    .kritik-stok-card {
+        background-color: rgba(220, 38, 38, 0.1) !important;
+        border-left: 4px solid #ef4444 !important;
+        color: #ffffff !important;
+    }
+
+    [data-bs-theme="dark"] .kritik-stok-card {
+        background-color: rgba(220, 38, 38, 0.15) !important;
+        border-left: 4px solid #fca5a5 !important;
+        color: #ffffff !important;
+    }
+
+    .kritik-stok-card .mobile-action-buttons .btn {
+        color: #ffffff !important;
+        border-color: rgba(255, 255, 255, 0.7) !important;
+        background-color: transparent !important;
+    }
+
+    [data-bs-theme="dark"] .kritik-stok-card .mobile-action-buttons .btn {
+        color: #ffffff !important;
+        border-color: rgba(255, 255, 255, 0.7) !important;
+        background-color: transparent !important;
+    }
+
+    .kritik-stok-card .mobile-action-buttons .btn:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border-color: #ffffff !important;
+    }
+
+    .kritik-stok-card .text-muted {
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    [data-bs-theme="dark"] .kritik-stok-card .text-muted {
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .kritik-stok-card p,
+    .kritik-stok-card h5,
+    .kritik-stok-card small {
+        color: #ffffff !important;
+    }
+}
+
+/* İşlemler Sütunu Stili */
+.islemler-header {
+    cursor: default !important;
+    user-select: none;
+    background-color: var(--accent-color) !important;
+    color: white;
+    font-weight: 500;
+    border: none;
+    position: relative;
+    text-align: center !important;
+    padding: 0.75rem !important;
+}
+
+.islemler-header:hover {
+    background-color: var(--accent-color) !important;
+}
+
+/* İşlem Butonları Hizalama */
+.table td:last-child {
+    text-align: right;
+    white-space: nowrap;
+    padding-right: 1.5rem !important;
+}
+
+.table td:last-child .btn {
+    margin-left: 0.5rem;
+}
+
+/* Mobil Görünüm İşlem Butonları */
+@media (max-width: 768px) {
+    .mobile-action-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        padding-right: 0.5rem;
+    }
+}
+
+/* Diğer tablo başlıkları için hover efekti */
+.table thead th[data-sort]:hover {
+    background-color: var(--hover-color);
+    cursor: pointer;
+}
+
+/* Stok Ekleme Kartı Stilleri */
+.stok-ekle-card {
+    border: none;
+    border-radius: 20px;
+    background: var(--bs-body-bg);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.stok-ekle-card .card-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+    padding: 1.2rem;
+    border: none;
+}
+
+.stok-ekle-card .card-header h5 {
+    color: white;
+    font-size: 1.2rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stok-ekle-card .card-body {
+    padding: 1.5rem;
+    background: var(--bs-body-bg);
+}
+
+/* Form Grup Stilleri */
+.input-group-custom {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.input-group-custom .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--bs-body-color);
+    font-size: 0.9rem;
+}
+
+/* Tür Seçimi Alanı */
+.select-wrapper {
+    position: relative;
+    background: var(--bs-body-bg);
+    border-radius: 12px;
+}
+
+.select-wrapper .form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(var(--bs-primary-rgb), 0.03);
+    border: 2px solid rgba(var(--bs-primary-rgb), 0.1);
+    color: var(--bs-body-color);
+    cursor: pointer;
+    border-radius: 12px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 3rem;
+}
+
+.tur-ayar-btn-wrapper {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+.tur-ayar-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: transparent;
+    border: 2px solid var(--bs-primary);
+    color: var(--bs-primary);
+    transition: all 0.2s ease;
+    margin-right: 0.5rem;
+}
+
+.tur-ayar-btn:hover {
+    background: var(--bs-primary);
+    color: white;
+}
+
+/* Özel Ölçü Switch */
+.custom-switch-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(var(--bs-primary-rgb), 0.03);
+    border: 2px solid rgba(var(--bs-primary-rgb), 0.1);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    height: 48px;
+}
+
+.switch-label {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 22px;
+    margin: 0;
+}
+
+.switch-label input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(var(--bs-primary-rgb), 0.2);
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .switch-slider {
+    background-color: var(--bs-primary);
+}
+
+input:checked + .switch-slider:before {
+    transform: translateX(22px);
+}
+
+.custom-switch-wrapper small {
+    font-size: 0.8rem;
+    color: var(--bs-body-color);
+    opacity: 0.7;
+    white-space: nowrap;
+    margin-left: auto;
+}
+
+/* Uzunluk/Genişlik Alanları */
+#olcuAlanlari {
+    margin-top: 1rem;
+}
+
+#olcuAlanlari .input-group-custom {
+    margin-bottom: 0;
+}
+
+/* Stok Ekle Butonu */
+.stok-ekle-btn {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 12px;
+    margin-top: 1.5rem;
+}
+
+/* Karanlık Tema Uyumluluğu */
+[data-bs-theme="dark"] .select-wrapper .form-select {
+    background-color: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.1);
+    color: #ffffff;
+}
+
+[data-bs-theme="dark"] .custom-switch-wrapper {
+    background-color: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.1);
+}
+
+[data-bs-theme="dark"] .custom-switch-wrapper small {
+    color: rgba(255,255,255,0.8);
+}
+
+/* Responsive Düzenlemeler */
+@media (max-width: 768px) {
+    .stok-ekle-card .card-body {
+        padding: 1rem;
+    }
+
+    .input-group-custom {
+        margin-bottom: 0.8rem;
+    }
+
+    .custom-switch-wrapper {
+        height: 44px;
+        padding: 0.5rem 0.8rem;
+    }
+} 

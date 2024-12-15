@@ -1,0 +1,853 @@
+:root {
+    --primary-color: #1a1a2e;
+    --secondary-color: #16213e;
+    --accent-color: #1b2a4a;
+    --hover-color: #0f3460;
+    --bs-body-bg: #0a0a0a;
+    --bs-body-color: #e0e0e0;
+}
+
+body {
+    background-color: var(--bs-body-bg);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+    background: #1a1a2e !important;
+    padding: 1rem 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.navbar-brand img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    object-fit: cover;
+}
+
+.navbar-brand span {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+}
+
+.navbar-nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+    }
+
+    .navbar-brand {
+        gap: 0.8rem;
+    }
+
+    .navbar-brand img {
+        height: 35px;
+        width: 35px;
+    }
+
+    .navbar-brand span {
+        font-size: 1.3rem;
+    }
+
+    .navbar-nav-buttons {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .navbar-nav-buttons .btn {
+        padding: 0.8rem;
+        font-size: 1rem;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+    }
+
+    .navbar-nav-buttons .btn i {
+        font-size: 1.1rem;
+        margin-right: 0.4rem;
+    }
+
+    /* Mobil istatistik kartları */
+    .stats-card {
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .stats-card i {
+        font-size: 2.8rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .stats-card h3 {
+        font-size: 2.2rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .stats-card p {
+        font-size: 1.1rem;
+    }
+
+    /* Mobil form elemanları */
+    .form-control {
+        padding: 1rem 1.2rem;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    .btn-primary {
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+    }
+
+    /* Mobil kart butonları */
+    .mobile-action-buttons .btn {
+        padding: 0.8rem 1.2rem;
+        font-size: 1.2rem;
+        height: auto;
+        min-width: 50px;
+    }
+
+    .mobile-action-buttons .btn i {
+        font-size: 1.2rem;
+    }
+
+    /* Mobil sıralama butonları */
+    .mobile-sort-buttons .btn {
+        padding: 1rem 1.2rem;
+        font-size: 1.1rem;
+    }
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+    background-color: var(--bs-body-bg);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.card-header {
+    background: #1a1f3c !important;
+    border-bottom: none;
+    padding: 1.5rem;
+}
+
+.card-header .card-title {
+    color: #ffffff;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.card-header .card-title i {
+    color: #6d7bff;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--hover-color), var(--accent-color));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.fire-sac-image {
+    width: 100%;
+    height: 300px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    cursor: zoom-in;
+    transition: transform 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+[data-bs-theme="dark"] .fire-sac-image {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.fire-sac-image:hover {
+    transform: scale(1.02);
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.table thead th {
+    background: #1a1a2e;
+    color: #fff;
+    font-weight: 500;
+    padding: 1rem;
+    border: none;
+}
+
+.table tbody td {
+    border-color: rgba(255, 255, 255, 0.05);
+    padding: 0.8rem 1rem;
+}
+
+.table-hover tbody tr:hover {
+    background: rgba(109, 123, 255, 0.05);
+}
+
+.accordion-button {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: 10px !important;
+    padding: 1.2rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.accordion-button:not(.collapsed) {
+    background: linear-gradient(135deg, var(--hover-color), var(--accent-color));
+    color: white;
+}
+
+.accordion-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+.badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+.btn-outline-light {
+    border-width: 2px;
+    font-weight: 500;
+}
+
+/* Modal Zoom Stili */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    cursor: zoom-in;
+}
+
+.modal-image {
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+
+.modal-image.zoomed {
+    transform: scale(2);
+    cursor: zoom-out;
+}
+
+/* Grup Başlığı Stili */
+.kalinlik-title {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: #16213e;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.kalinlik-title:hover {
+    background: #1b2a4a;
+}
+
+.toggle-icon {
+    font-size: 1.2rem;
+    color: #6d7bff;
+    margin-left: auto;
+    user-select: none;
+}
+
+.group-content {
+    display: none;
+}
+
+/* Mobil görünüm stilleri */
+.mobile-btn-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.mobile-btn-group .durum-btn {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    white-space: nowrap;
+}
+
+.mobile-btn-group .sil-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.mobile-btn-group .btn i {
+    margin-right: 0.5rem;
+}
+
+.mobile-info {
+    background: rgba(109, 123, 255, 0.1);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+}
+
+.mobile-info small {
+    color: rgba(255, 255, 255, 0.9);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.mobile-info .not-alani {
+    background: rgba(26, 31, 60, 0.5);
+    padding: 0.8rem;
+    border-radius: 0.4rem;
+    margin-top: 0.5rem;
+}
+
+.mobile-info .not-alani small {
+    color: #ffffff;
+    font-size: 0.9rem;
+    line-height: 1.4;
+} 
+
+/* Tablo stilleri */
+.table-container {
+    position: relative;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--bs-dark);
+}
+
+/* Silme animasyonları */
+.table tbody tr {
+    transition: all 0.3s ease;
+    transform-origin: center;
+    transform: scale(1);
+    opacity: 1;
+}
+
+.table tbody tr.removing {
+    transform: scale(0.95);
+    opacity: 0;
+}
+
+/* Mobil kart stilleri */
+.fire-sac-container {
+    position: relative;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.fire-sac-card {
+    background: #1a1a2e;
+    border-radius: 12px;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.fire-sac-card .card-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #fff;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.fire-sac-card .fire-sac-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 200px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.fire-sac-card .mobile-info {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 0.8rem;
+    margin: 1rem 0;
+}
+
+.fire-sac-card .mobile-info small {
+    display: block;
+    color: #e0e0e0;
+    margin-bottom: 0.5rem;
+}
+
+.fire-sac-card .mobile-info i {
+    width: 16px;
+    text-align: center;
+    margin-right: 0.5rem;
+}
+
+.fire-sac-card .not-alani {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 0.8rem;
+    margin-top: 0.8rem;
+}
+
+.fire-sac-card .mobile-btn-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.fire-sac-card .mobile-btn-group button {
+    flex: 1;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.fire-sac-card .mobile-btn-group .durum-btn {
+    background: #1a1a2e;
+    color: #fff;
+}
+
+.fire-sac-card .mobile-btn-group .durum-btn.active {
+    background: #ffc107;
+    color: #000;
+}
+
+.fire-sac-card .mobile-btn-group .sil-btn {
+    background: #e63946;
+    color: #fff;
+}
+
+.fire-sac-card .card-header {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.fire-sac-card .card-content {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.fire-sac-card .card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.fire-sac-card .info-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #e0e0e0;
+}
+
+.fire-sac-card .info-row i,
+.fire-sac-card .info-row img {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fire-sac-card .btn-kullanilmiyor {
+    background: #1a1a2e !important;
+    color: #fff !important;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 6px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.fire-sac-card .btn-kullaniliyor {
+    background: #ffc107 !important;
+    color: #000 !important;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 6px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.fire-sac-card .btn-kullaniliyor:hover {
+    background: #ffca28 !important;
+}
+
+.fire-sac-card .btn-kullanilmiyor:hover {
+    background: #232849 !important;
+}
+
+.fire-sac-card .btn-sil {
+    background: #e63946 !important;
+    color: #fff !important;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 6px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.fire-sac-card .btn-sil i {
+    font-size: 1rem;
+}
+
+.fire-sac-card .timestamp {
+    color: #aaa;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 1rem;
+}
+
+.fire-sac-card .timestamp i {
+    font-size: 0.9rem;
+}
+
+.fire-sac-card .card-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.fire-sac-card.removing {
+    transform: scale(0.95);
+    opacity: 0;
+}
+
+/* Grup stilleri */
+.kalinlik-group {
+    margin-bottom: 1rem;
+} 
+
+.fire-sac-card .btn-kullanilmiyor {
+    background: #1a1a2e;
+    color: #fff;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 6px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.fire-sac-card .btn-kullaniliyor {
+    background: #ffc107;
+    color: #000;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 6px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.fire-sac-card .btn-kullaniliyor:hover {
+    background: #ffca28;
+}
+
+.fire-sac-card .btn-kullanilmiyor:hover {
+    background: #232849;
+} 
+
+/* Durum Butonları - Yeni Stiller */
+.btn.durum-btn.btn-forest {
+    background: #1a1a2e !important;
+    color: #fff !important;
+    padding: 4px 8px !important;
+    border: none !important;
+    border-radius: 4px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    white-space: nowrap !important;
+    min-width: auto !important;
+    margin: 0 !important;
+}
+
+.btn.durum-btn.btn-forest.active {
+    background: #ffc107 !important;
+    color: #000 !important;
+}
+
+.btn.durum-btn.btn-forest i {
+    margin-right: 4px !important;
+}
+
+/* Sil Butonu */
+button.btn.sil-btn {
+    background-color: #e63946 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 0.8rem 1.2rem !important;
+    border-radius: 6px !important;
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    font-size: 0.9rem !important;
+}
+
+/* Bootstrap ve diğer stilleri geçersiz kılmak için */
+.btn-forest.inactive:not(:disabled):not(.disabled),
+.btn-forest.inactive:not(:disabled):not(.disabled):active {
+    background-color: #1a1a2e !important;
+    color: #ffffff !important;
+}
+
+.btn-forest.active:not(:disabled):not(.disabled),
+.btn-forest.active:not(:disabled):not(.disabled):active {
+    background-color: #ffc107 !important;
+    color: #000000 !important;
+} 
+
+.fire-sac-card .durum-btn.btn-forest {
+    border: none !important;
+    padding: 0.8rem 1.2rem !important;
+    border-radius: 6px !important;
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    font-size: 0.9rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.fire-sac-card .durum-btn.btn-forest.inactive {
+    background-color: #1a1a2e !important;
+    color: #ffffff !important;
+}
+
+.fire-sac-card .durum-btn.btn-forest.active {
+    background-color: #ffc107 !important;
+    color: #000000 !important;
+}
+
+.fire-sac-card .durum-btn i {
+    font-size: 1rem !important;
+    margin-right: 0.3rem !important;
+}
+
+.fire-sac-card .btn-sil {
+    background-color: #e63946 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 0.8rem 1.2rem !important;
+    border-radius: 6px !important;
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    font-size: 0.9rem !important;
+} 
+
+/* Masaüstü buton stilleri - Tüm efektleri kaldır */
+.table .btn {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 6px 12px !important;
+}
+
+.table .btn:hover,
+.table .btn:active,
+.table .btn:focus {
+    transform: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.table .btn-forest.inactive {
+    background: #1a1a2e !important;
+    color: #fff !important;
+}
+
+.table .btn-forest.active {
+    background: #ffc107 !important;
+    color: #000 !important;
+}
+
+.table .btn-sil {
+    background: #e63946 !important;
+    color: #fff !important;
+} 
+
+/* İkon stilleri */
+.btn i {
+    margin-right: 0.3rem;
+} 
+
+.btn.btn-forest.inactive {
+    background-color: #1a1a2e !important;
+    color: #fff !important;
+}
+
+.btn.btn-forest.active {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.btn.btn-forest {
+    border: none !important;
+    transition: none !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.btn.btn-forest:hover,
+.btn.btn-forest:active,
+.btn.btn-forest:focus {
+    transform: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+}
+
+.btn.btn-forest.inactive {
+    background-color: #1a1a2e !important;
+    color: #fff !important;
+}
+
+.btn.btn-forest.active {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.btn-sil {
+    background-color: #e63946 !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+/* Önceki stilleri kaldır */
+.fire-sac-card .durum-btn.btn-forest,
+.fire-sac-card .btn-kullaniliyor,
+.fire-sac-card .btn-kullanilmiyor,
+button.btn.durum-btn.btn-forest,
+.durum-btn.btn-forest {
+    background: none;
+    color: inherit;
+} 
+
+.table td:last-child {
+    white-space: nowrap !important;
+    width: 1% !important;
+}
+
+.btn-sil {
+    margin-left: 4px !important;
+}
+
+/* Önceki stilleri temizle */
+.btn-sm,
+.btn-forest,
+.durum-btn {
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+} 

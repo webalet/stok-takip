@@ -1,0 +1,98 @@
+/* Ana sayfa stilleri */
+:root {
+    --primary-color: #1a1a2e;
+    --secondary-color: #e63946;
+    --success-color: #2ecc71;
+    --warning-color: #f1c40f;
+    --text-color: #ffffff;
+    --border-color: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+    background-color: var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 0;
+}
+
+.navbar-brand img {
+    height: 40px;
+    margin-right: 1rem;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem;
+}
+
+.card-title {
+    color: var(--text-color);
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.table {
+    margin: 0;
+}
+
+.table th {
+    border-color: var(--border-color);
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+.table td {
+    border-color: var(--border-color);
+    vertical-align: middle;
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: darken(var(--secondary-color), 10%);
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--secondary-color);
+    color: var(--text-color);
+    box-shadow: none;
+}
+
+/* Responsive tasarım */
+@media (max-width: 768px) {
+    .navbar-brand img {
+        height: 32px;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+    }
+
+    .table-responsive {
+        margin: 0;
+    }
+} 
